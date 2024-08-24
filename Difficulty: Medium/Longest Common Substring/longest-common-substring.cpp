@@ -7,7 +7,7 @@ using namespace std;
 class Solution {
   public:
   
-    int LCS(string s1,string s2,int n,int m)
+    int LCS(string str1,string str2,int n,int m)
     {
         int dp[n+1][m+1];
         
@@ -17,7 +17,7 @@ class Solution {
             {
                 if(i==0 || j==0)
                 {
-                    dp[i][j]=0;
+                dp[i][j]=0;
                 }
             }
         }
@@ -26,7 +26,7 @@ class Solution {
         {
             for(int j=1;j<=m;j++)
             {
-                if(s1[i-1]==s2[j-1])
+                if(str1[i-1]==str2[j-1])
                 {
                     dp[i][j]=1+dp[i-1][j-1];
                 }
@@ -49,13 +49,13 @@ class Solution {
         
         return mx;
     }
-    int longestCommonSubstr(string s1, string s2) {
+    int longestCommonSubstr(string str1, string str2) {
         // your code here
         
-        int n=s1.length();
-        int m=s2.length();
+        int n=str1.length();
+        int m=str2.length();
         
-        return LCS(s1,s2,n,m);
+        return LCS(str1,str2,n,m);
     }
 };
 
