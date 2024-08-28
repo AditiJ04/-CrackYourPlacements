@@ -6,38 +6,48 @@ using namespace std;
 class Solution {
   public:
     // Function to detect cycle in a directed graph.
-       bool checkCycle(int node, vector < int > adj[], int vis[], int dfsVis[]) {
-      vis[node] = 1;
-      dfsVis[node] = 1;
-      for (auto it: adj[node]) {
-        if (!vis[it]) {
-          if (checkCycle(it, adj, vis, dfsVis)) return true;
-        } else if (dfsVis[it]) {
-          return true;
+    bool Cycle(vector<int>adj[],vector<bool>&vis,vector<bool>&dfsvis,int node)
+    {
+        vis[node]=true;
+        dfsvis[node]=true;
+        
+        for(auto it:adj[node])
+        {
+            if(!vis[it])
+            {
+                if(Cycle(adj,vis,dfsvis,it))
+                {
+                    return true;
+                }
+            }
+            
+            else if(dfsvis[it])
+            {
+                return true;
+            }
         }
-      }
-      dfsVis[node] = 0;
-      return false;
+        
+        dfsvis[node]=false;
+        return false;
     }
     bool isCyclic(int V, vector<int> adj[]) {
         // code here
-         int vis[V], dfsVis[V];
-     
-      for(int i = 0; i < V; i++){
-        vis[i] = 0;
-        dfsVis[i] = 0;
-      }
-
-      for (int i = 0; i < V; i++) {
-        if (!vis[i]) {
-          // cout << i << endl; 
-          if (checkCycle(i, adj, vis, dfsVis)) {
-             // cout << i << endl;
-            return true;
-          }
+        
+        vector<bool>vis(V,false);
+        vector<bool>dfsvis(V,false);
+        
+        for(int i=0;i<V;i++)
+        {
+            if(!vis[i])
+            {
+                if(Cycle(adj,vis,dfsvis,i))
+                {
+                    return true;
+                }
+            }
         }
-      }
-      return false;
+        
+        return false;
     }
 };
 
