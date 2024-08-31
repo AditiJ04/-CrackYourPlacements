@@ -98,7 +98,7 @@ class Solution {
     vector <int> bottomView(Node *root) {
         // Your Code Here
         
-          vector<int>ans;
+        vector<int>ans;
         
         if(root==NULL)
         {
@@ -114,27 +114,27 @@ class Solution {
         while(!que.empty())
         {
             pair<Node*,int>p=que.front();
+            
+            Node* node=p.first;
+            int lev=p.second;
+            
             que.pop();
+            mp[lev]=node->data;
             
-            Node* fro=p.first;
-            int hd=p.second;
-            
-            mp[hd]=fro->data;
-            
-            if(fro->left)
+            if(node->left)
             {
-                que.push(make_pair(fro->left,hd-1));
+                que.push(make_pair(node->left,lev-1));
             }
             
-            if(fro->right)
+            if(node->right)
             {
-                que.push(make_pair(fro->right,hd+1));
+                que.push(make_pair(node->right,lev+1));
             }
         }
         
-        for(auto i:mp)
+        for(auto it:mp)
         {
-            ans.push_back(i.second);
+            ans.push_back(it.second);
         }
         
         return ans;
