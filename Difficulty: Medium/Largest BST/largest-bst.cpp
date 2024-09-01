@@ -101,8 +101,9 @@ struct Node {
 
 class Solution{
     public:
-    
-    bool checkBST(Node* root,int &len,int maxi,int mini)
+    /*You are required to complete this method */
+    // Return the size of the largest sub-tree which is also a BST
+    bool isValid(Node* root,int mini,int maxi)
     {
         if(root==NULL)
         {
@@ -114,40 +115,38 @@ class Solution{
             return false;
         }
         
-        bool l=checkBST(root->left,len,root->data,mini);
-        bool r=checkBST(root->right,len,maxi,root->data);
-        
-        if(l && r)
-        {
-            len+=1;
-            return true;
-        }
-        
-        return false;
+        return isValid(root->left,mini,root->data) && isValid(root->right,root->data,maxi);
     }
-    void LargeBST(Node* root,int &cnt)
+    int count(Node* root)
     {
         if(root==NULL)
         {
-            return;
+            return 0;
         }
-        int len=0;
-        if(checkBST(root,len,INT_MAX,INT_MIN))
-        {
-            cnt=max(cnt,len);
-        }
-        LargeBST(root->left,cnt);
-        LargeBST(root->right,cnt);
+        
+        return 1+count(root->left)+count(root->right);
+        
     }
-    /*You are required to complete this method */
-    // Return the size of the largest sub-tree which is also a BST
     int largestBst(Node *root)
     {
     	//Your code here
-    	int cnt=0;
-    	LargeBST(root,cnt);
+    	if(root==NULL)
+    	{
+    	    return 0;
+    	}
     	
-    	return cnt;
+    	if(isValid(root,INT_MIN,INT_MAX))
+    	{
+    	    return count(root);
+    	}
+    	
+    	else
+    	{
+    	    int left=largestBst(root->left);
+    	    int right=largestBst(root->right);
+    	    
+    	    return max(left,right);
+    	}
     }
 };
 
