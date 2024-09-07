@@ -6,13 +6,13 @@ using namespace std;
 class Solution
 {
 	public:
-	//Function to return list containing vertices in Topological order.
+	//Function to return list containing vertices in Topological order. 
 	vector<int> topoSort(int V, vector<int> adj[]) 
 	{
 	    // code here
-	    queue<int>que;
-	    int indegree[V]={0};
-	    int vis[V]={0};
+	    vector<int>ans;
+	    
+	    vector<int>indegree(V,0);
 	    
 	    for(int i=0;i<V;i++)
 	    {
@@ -22,7 +22,7 @@ class Solution
 	        }
 	    }
 	    
-	    vector<int>topo;
+	    queue<int>que;
 	    
 	    for(int i=0;i<V;i++)
 	    {
@@ -36,11 +36,13 @@ class Solution
 	    {
 	        int fro=que.front();
 	        que.pop();
-	        topo.push_back(fro);
+	        
+	        ans.push_back(fro);
 	        
 	        for(auto it:adj[fro])
 	        {
 	            indegree[it]--;
+	            
 	            if(indegree[it]==0)
 	            {
 	                que.push(it);
@@ -48,7 +50,7 @@ class Solution
 	        }
 	    }
 	    
-	    return topo;
+	    return ans;
 	}
 };
 
