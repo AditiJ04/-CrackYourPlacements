@@ -97,47 +97,37 @@ class Solution {
   public:
     vector <int> bottomView(Node *root) {
         // Your Code Here
+        vector<int>v;
         
-        vector<int>ans;
-        
-        if(root==NULL)
-        {
-            return ans;
-        }
-        
-        map<int,int>mp;
-        
-        queue<pair<Node*,int>>que;
-        
-        que.push(make_pair(root,0));
+        queue<pair<int,Node*>>que;
+        que.push({0,root});
+        map<int,Node*>mp;
         
         while(!que.empty())
         {
-            pair<Node*,int>p=que.front();
-            
-            Node* node=p.first;
-            int lev=p.second;
+            Node* node=que.front().second;
+            int lev=que.front().first;
+            mp[lev]=node;
             
             que.pop();
-            mp[lev]=node->data;
             
             if(node->left)
             {
-                que.push(make_pair(node->left,lev-1));
+                que.push({lev-1,node->left});
             }
-            
-            if(node->right)
+              if(node->right)
             {
-                que.push(make_pair(node->right,lev+1));
+                que.push({lev+1,node->right});
             }
         }
+        
         
         for(auto it:mp)
         {
-            ans.push_back(it.second);
+            v.push_back(it.second->data);
         }
+        return v;
         
-        return ans;
     }
 };
 
@@ -157,7 +147,9 @@ int main() {
         vector <int> res = ob.bottomView(root);
         for (int i : res) cout << i << " ";
         cout << endl;
-    }
+    
+cout << "~" << "\n";
+}
     return 0;
 }
 
