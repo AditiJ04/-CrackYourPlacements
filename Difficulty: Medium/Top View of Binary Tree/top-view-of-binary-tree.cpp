@@ -105,50 +105,40 @@ class Solution
     vector<int> topView(Node *root)
     {
         //Your code here
-        
-        vector<int>ans;
-        
-        map<int,int>mp;
-        
-        if(root==NULL)
-        {
-            return ans;
-        }
-        
-        queue<pair<Node*,int>>que;
-        
-        que.push(make_pair(root,0));
+        vector<int>v;
+        queue<pair<int,Node*>>que;
+        que.push({0,root});
+        map<int,Node*>mp;
         
         while(!que.empty())
         {
-            pair<Node*,int>p=que.front();
-            Node* fro=p.first;
-            int lev=p.second;
-            
-            que.pop();
+            Node* node=que.front().second;
+            int lev=que.front().first;
             
             if(mp.find(lev)==mp.end())
             {
-                mp[lev]=fro->data;
+            mp[lev]=node;
             }
             
-            if(fro->left)
-            {
-                que.push(make_pair(fro->left,lev-1));
-            }
+            que.pop();
             
-             if(fro->right)
+            if(node->left)
             {
-                que.push(make_pair(fro->right,lev+1));
+                que.push({lev-1,node->left});
+            }
+              if(node->right)
+            {
+                que.push({lev+1,node->right});
             }
         }
+        
         
         for(auto it:mp)
         {
-            ans.push_back(it.second);
+            v.push_back(it.second->data);
         }
+        return v;
         
-        return ans;
     }
 
 };
@@ -170,7 +160,9 @@ int main() {
         for(int x : vec)
             cout<<x<<" ";
         cout<<endl;
-    }
+    
+cout << "~" << "\n";
+}
     return 0;
 }
 // } Driver Code Ends
