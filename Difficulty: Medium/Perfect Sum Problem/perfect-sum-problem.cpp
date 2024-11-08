@@ -42,6 +42,7 @@ class Solution{
 	  
 };
 
+
 //{ Driver Code Starts.
 int main() 
 {
@@ -64,7 +65,9 @@ int main()
 	    Solution ob;
 	    cout << ob.perfectSum(a, n, sum) << "\n";
 	     
-    }
+    
+cout << "~" << "\n";
+}
     return 0;
 }
 
