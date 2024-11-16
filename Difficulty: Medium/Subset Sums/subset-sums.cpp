@@ -6,24 +6,24 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-    void Sum(vector<int>&arr,int n,vector<int>&ans,int sum,int idx)
+  
+    vector<int>ans;
+    
+    void findSum(vector<int>arr,int sum,int idx)
     {
-        if(idx>=n)
+        ans.push_back(sum);
+        for(int i=idx;i<arr.size();i++)
         {
-            ans.push_back(sum);
-            return;
+            findSum(arr,sum+arr[i],i+1);
         }
-        Sum(arr,n,ans,sum+arr[idx],idx+1);
-        Sum(arr,n,ans,sum,idx+1);
     }
     vector<int> subsetSums(vector<int> arr, int n) {
         // Write Your Code here
-        vector<int>ans;
+        int sum=0;
         
-        Sum(arr,n,ans,0,0);
+        findSum(arr,sum,0);
         
         return ans;
-        
     }
 };
 
@@ -45,7 +45,9 @@ int main() {
             cout << sum << " ";
         }
         cout << endl;
-    }
+    
+cout << "~" << "\n";
+}
     return 0;
 }
 // } Driver Code Ends
