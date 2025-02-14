@@ -28,42 +28,36 @@ struct Node
 
 class Solution {
   public:
-    vector<int> leftView(Node *root) {
-        // code here
-        vector<int>v;
-        
-        queue<pair<Node*,int>>que;
-        
-        que.push({root,0});
-        
-        unordered_map<int,int>mp;
-        
-        while(!que.empty())
+    void FindView(Node* root,int lev,map<int,int>&mp)
+    {
+         if(root==NULL)
         {
-            Node* node=que.front().first;
-            //v.push_back(node->data);
-           
-            int lev=que.front().second;
-            
-            if(mp.find(lev)==mp.end())
-            {
-                v.push_back(node->data);
-                mp[lev]++;
-            }
-            que.pop();
-            if(node->left)
-            {
-                que.push({node->left,lev+1});
-            }
-            
-            if(node->right)
-            {
-                que.push({node->right,lev+1});
-            }
-            
+            return;
         }
         
-        return v;
+        if(mp.find(lev)==mp.end())
+        {
+            mp[lev]=root->data;
+        }
+    
+            FindView(root->left,lev+1,mp);
+            FindView(root->right,lev+1,mp);
+    }
+    vector<int> leftView(Node *root) {
+        // code here
+        vector<int>ans;
+        
+         map<int,int>mp;
+    
+    
+        FindView(root,0,mp);
+        
+        for(auto it:mp)
+        {
+            ans.push_back(it.second);
+        }
+        
+        return ans;
     }
 };
 
@@ -154,6 +148,9 @@ int main() {
         Node* root = buildTree(s);
         Solution ob;
         vector<int> vec = ob.leftView(root);
+        if (vec.size() == 0) {
+            cout << "[]";
+        }
         for (int x : vec)
             cout << x << " ";
         cout << endl;
