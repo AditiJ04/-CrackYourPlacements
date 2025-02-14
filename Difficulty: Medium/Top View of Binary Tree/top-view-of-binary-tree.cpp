@@ -1,20 +1,18 @@
 //{ Driver Code Starts
-//Initial Template for C++
+// Initial Template for C++
 
 #include <bits/stdc++.h>
 using namespace std;
 
 // Tree Node
-struct Node
-{
+struct Node {
     int data;
     Node* left;
     Node* right;
 };
 
 // Utility function to create a new Tree Node
-Node* newNode(int val)
-{
+Node* newNode(int val) {
     Node* temp = new Node;
     temp->data = val;
     temp->left = NULL;
@@ -24,8 +22,7 @@ Node* newNode(int val)
 }
 
 // Function to Build Tree
-Node* buildTree(string str)
-{
+Node* buildTree(string str) {
     // Corner Case
     if (str.length() == 0 || str[0] == 'N')
         return NULL;
@@ -35,7 +32,7 @@ Node* buildTree(string str)
     vector<string> ip;
 
     istringstream iss(str);
-    for (string str; iss >> str; )
+    for (string str; iss >> str;)
         ip.push_back(str);
 
     // Create the root of the tree
@@ -97,72 +94,74 @@ struct Node
     Node* right;
 };
 */
-class Solution
-{
-    public:
-    //Function to return a list of nodes visible from the top view 
-    //from left to right in Binary Tree.
-    vector<int> topView(Node *root)
-    {
-        //Your code here
-        vector<int>v;
-        queue<pair<int,Node*>>que;
-        que.push({0,root});
-        map<int,Node*>mp;
+class Solution {
+  public:
+    // Function to return a list of nodes visible from the top view
+    // from left to right in Binary Tree.
+    vector<int> topView(Node *root) {
+        // code here
+        vector<int>ans;
+        
+        queue<pair<Node*,int>>que;
+        
+        que.push({root,0});
+        
+        map<int,int>mp;
         
         while(!que.empty())
         {
-            Node* node=que.front().second;
-            int lev=que.front().first;
+            pair<Node*,int>p=que.front();
             
-            if(mp.find(lev)==mp.end())
+            int a=(p.first)->data;
+            int b=p.second;
+            
+            if(mp.find(b)==mp.end())
             {
-            mp[lev]=node;
+                mp[b]=a;
+            }
+            
+            if((p.first)->left)
+            {
+                que.push({(p.first)->left,b-1});
+            }
+            
+            if((p.first)->right)
+            {
+                que.push({(p.first)->right,b+1});
             }
             
             que.pop();
-            
-            if(node->left)
-            {
-                que.push({lev-1,node->left});
-            }
-              if(node->right)
-            {
-                que.push({lev+1,node->right});
-            }
         }
-        
         
         for(auto it:mp)
         {
-            v.push_back(it.second->data);
+            ans.push_back(it.second);
         }
-        return v;
         
+        return ans;
     }
-
 };
-
 
 
 //{ Driver Code Starts.
 
 int main() {
     int tc;
-    cin>>tc;
+    cin >> tc;
     cin.ignore(256, '\n');
     while (tc--) {
         string treeString;
         getline(cin, treeString);
         Solution ob;
-        Node *root = buildTree(treeString);
+        Node* root = buildTree(treeString);
         vector<int> vec = ob.topView(root);
-        for(int x : vec)
-            cout<<x<<" ";
-        cout<<endl;
-    
-cout << "~" << "\n";
-}
+        for (int x : vec)
+            cout << x << " ";
+        cout << endl;
+
+        cout << "~"
+             << "\n";
+    }
     return 0;
 }
 // } Driver Code Ends
