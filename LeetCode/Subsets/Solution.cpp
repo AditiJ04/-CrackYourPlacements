@@ -14,7 +14,7 @@ public:
 
         for(int i=idx;i<nums.size();i++)
         {
-            if(i!=0 && nums[i]==nums[i-1])
+            if(i>idx && nums[i]==nums[i-1])
             {
                 continue;
             }
