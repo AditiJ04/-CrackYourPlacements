@@ -12,50 +12,61 @@
 class Solution {
 public:
     vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
-        	vector<vector<int>>res;
-    	
-    	if(root==NULL)
-    	{
-    	    return res;
-    	}
-    	queue<TreeNode*>que;
-    	
-    	que.push(root);
-    	
-    	bool LtoR=true;
-    	
-    	while(!que.empty())
-    	{
-    	    int s=que.size();
-    	    vector<int>tmp(s);
-    	    
-    	    for(int i=0;i<s;i++)
-    	    {
-    	        TreeNode* fro=que.front();
-    	        que.pop();
-    	        
-    	        int idx=LtoR?i:s-i-1;
-    	        
-    	        tmp[idx]=fro->val;
-    	       
-    	        if(fro->left)
-    	        {
-    	            que.push(fro->left);
-    	        }
-    	        
-    	        if(fro->right)
-    	        {
-    	            que.push(fro->right);
-    	        }
-    	        
-    	        
-    	    }
-    	     LtoR=!LtoR;
-    	        
-    	    
-    	    res.push_back(tmp);
-    	}
-    	
-    	return res;
+
+        vector<vector<int>>ans;
+
+        if(root==NULL)
+        {
+            return ans;
+        }
+        queue<TreeNode*>que;
+
+        int lev=1;
+        que.push(root);
+        que.push(NULL);
+        vector<int>v;
+
+        while(!que.empty())
+        {
+            
+            TreeNode* fro=que.front();
+            que.pop();
+
+
+            if(fro==NULL)
+            {
+                lev++;
+
+                if(lev%2!=0)
+                {
+                    reverse(v.begin(),v.end());
+                }
+                 ans.push_back(v);
+
+                v.clear();
+
+                if(que.size()>0)
+                {
+                    que.push(NULL);
+                }
+            }
+
+            else
+            {
+            v.push_back(fro->val);
+            if(fro->left)
+            {
+                que.push(fro->left);
+            }
+
+            if(fro->right)
+            {
+                que.push(fro->right);
+            }
+
+            }
+        }
+
+        return ans;
     }
 };
