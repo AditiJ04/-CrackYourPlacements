@@ -12,48 +12,50 @@
 class Solution {
 public:
     vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
-        vector<vector<int>>ans;
-
-        queue<TreeNode*>que;
-
-        if(root==NULL)
-        {
-            return ans;
-        }
-
-        que.push(root);
-        int rev=0;
-
-        while(!que.empty())
-        {
-            int sz=que.size();
-
-            vector<int>tmp;
-            for(int i=0;i<sz;i++)
-            {
-                TreeNode* node=que.front();
-                tmp.push_back(node->val);
-                que.pop();
-
-                if(node->left)
-                {
-                    que.push(node->left);
-                }
-
-                if(node->right)
-                {
-                    que.push(node->right);
-                }
-            }
-
-            if(rev==1)
-            {
-                reverse(tmp.begin(),tmp.end());
-            }
-            rev=!rev;
-            ans.push_back(tmp);
-        }
-
-        return ans;
+        	vector<vector<int>>res;
+    	
+    	if(root==NULL)
+    	{
+    	    return res;
+    	}
+    	queue<TreeNode*>que;
+    	
+    	que.push(root);
+    	
+    	bool LtoR=true;
+    	
+    	while(!que.empty())
+    	{
+    	    int s=que.size();
+    	    vector<int>tmp(s);
+    	    
+    	    for(int i=0;i<s;i++)
+    	    {
+    	        TreeNode* fro=que.front();
+    	        que.pop();
+    	        
+    	        int idx=LtoR?i:s-i-1;
+    	        
+    	        tmp[idx]=fro->val;
+    	       
+    	        if(fro->left)
+    	        {
+    	            que.push(fro->left);
+    	        }
+    	        
+    	        if(fro->right)
+    	        {
+    	            que.push(fro->right);
+    	        }
+    	        
+    	        
+    	    }
+    	     LtoR=!LtoR;
+    	        
+    	    
+    	    res.push_back(tmp);
+    	}
+    	
+    	return res;
     }
 };
