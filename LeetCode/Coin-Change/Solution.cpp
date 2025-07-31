@@ -1,34 +1,30 @@
 class Solution {
 public:
-
-    int minCoins(vector<int>&coins,int amount,vector<vector<int>>&dp,int idx)
+    int Coin(vector<int>&coins,int amount,int idx,vector<vector<int>>&dp)
     {
-        if(idx==coins.size() && amount!=0) return INT_MAX;
         if(amount==0)
         {
             return 0;
         }
-        if(dp[amount][idx]!=-1) return dp[amount][idx];
-        int take=INT_MAX,ntake;
 
-        if(coins[idx]<=amount)
+        if(idx<0 || amount<0)
         {
-            int val=minCoins(coins,amount-coins[idx],dp,idx);
-            if(val!=INT_MAX)
-            {
-                take=1+val;
-            }
+            return INT_MAX-1;
         }
-        ntake=minCoins(coins,amount,dp,idx+1);
-
-        return dp[amount][idx]=min(take,ntake);
+        if(dp[idx][amount]!=-1)
+        {
+            return dp[idx][amount];
+        }
+        int one=Coin(coins,amount,idx-1,dp);
+        int two=1+Coin(coins,amount-coins[idx],idx,dp);
+        return dp[idx][amount]=min(one,two);
     }
     int coinChange(vector<int>& coins, int amount) {
         int n=coins.size();
 
-        vector<vector<int>>dp(amount+1,vector<int>(n+1,-1));
-        int tcoins=minCoins(coins,amount,dp,0);
+        vector<vector<int>>dp(n,vector<int>(amount+1,-1));
+        int ans=Coin(coins,amount,n-1,dp);
 
-        return tcoins==INT_MAX?-1:tcoins;
+        return (ans<INT_MAX-1)?ans:-1;
     }
 };
