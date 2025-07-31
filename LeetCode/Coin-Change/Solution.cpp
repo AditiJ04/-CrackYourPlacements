@@ -1,61 +1,47 @@
 class Solution {
 public:
-    int knapsack(vector<int>&coins,int amt)
-    {
+    int coinChange(vector<int>& coins, int amount) {
         int n=coins.size();
 
-        int dp[n+1][amt+1];
+        vector<vector<int>>dp(n,vector<int>(amount+1,-1));
 
-        for(int i=0;i<=n;i++)
+        for(int i=0;i<=amount;i++)
         {
-            for(int j=0;j<=amt;j++)
+            if(i%coins[0]==0)
             {
-                if(i==0)
-                {
-                    dp[i][j]=INT_MAX-1;
-                }
-
-                if(j==0)
-                {
-                    dp[i][j]=0;
-                }
-
-                if(i==1)
-                {
-                    if(j%coins[i-1]==0)
-                    {
-                        dp[i][j]=j/coins[i-1];
-                    }
-                    else
-                    {
-                        dp[i][j]=INT_MAX-1;
-                    }
-                }
+                dp[0][i]=i/coins[0];
+            }
+            else
+            {
+                dp[0][i]=INT_MAX;
             }
         }
 
-        for(int i=1;i<=n;i++)
+        for(int idx=1;idx<n;idx++)
         {
-            for(int j=1;j<=amt;j++)
+            for(int t=0;t<=amount;t++)
             {
-                if(coins[i-1]<=j)
+                int ntake=dp[idx-1][t];
+
+                int take=INT_MAX;
+
+                if(t-coins[idx]>=0)
                 {
-                    dp[i][j]=min(1+dp[i][j-coins[i-1]],dp[i-1][j]);
+                    int val=dp[idx][t-coins[idx]];
+                    if(val!=INT_MAX)
+                    {
+                        take=1+val;
+                    }
                 }
-                else
-                {
-                    dp[i][j]=dp[i-1][j];
-                }
+
+                dp[idx][t]=min(take,ntake);
             }
         }
 
-        if(dp[n][amt]==INT_MAX-1)
-        {
-            return -1;
-        }
-        return dp[n][amt];
-    }
-    int coinChange(vector<int>& coins, int amount) {
-        return knapsack(coins,amount);
+        int ans=dp[n-1][amount];
+
+        if(ans==INT_MAX) return -1;
+
+        return ans;
     }
 };
