@@ -20,11 +20,12 @@ public:
         {
             s=s->next;
             f=f->next->next;
-
+            
             if(f==s)
             {
                 return true;
             }
+          
         }
         return false;
     }
