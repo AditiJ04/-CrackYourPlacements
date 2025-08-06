@@ -1,37 +1,23 @@
 class Solution {
 public:
-
-    vector<vector<int>>ans;
-    void Subset(vector<int>&nums,vector<int>&arr,int idx)
+    set<vector<int>>st;
+    void findSubset(vector<int>&nums,vector<int>&v,int idx)
     {
-      //  int n=nums.size();
-        ans.push_back(arr);
+        st.insert(v);
+        if(idx==nums.size()) return;
 
-        if(idx==nums.size())
-        {
-            return;
-        }
-
-        for(int i=idx;i<nums.size();i++)
-        {
-            if(i>idx && nums[i]==nums[i-1])
-            {
-                continue;
-            }
-            arr.push_back(nums[i]);
-            Subset(nums,arr,i+1);
-            arr.pop_back();
-        }
+        v.push_back(nums[idx]);
+        findSubset(nums,v,idx+1);
+        v.pop_back();
+        findSubset(nums,v,idx+1);
     }
     vector<vector<int>> subsets(vector<int>& nums) {
-     
-        int n=nums.size();
 
-        vector<int>arr;
+        vector<vector<int>>ans;
+        vector<int>v;
+        findSubset(nums,v,0);
 
-        sort(nums.begin(),nums.end());
-        Subset(nums,arr,0);
-
+        ans.assign(st.begin(),st.end());
         return ans;
     }
 };
