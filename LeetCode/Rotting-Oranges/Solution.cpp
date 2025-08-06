@@ -1,21 +1,19 @@
 class Solution {
 public:
+    int row[4]={0,-1,0,1};
+    int col[4]={-1,0,1,0};
     int orangesRotting(vector<vector<int>>& grid) {
         int n=grid.size();
         int m=grid[0].size();
 
+        int cntfresh=0;
         queue<pair<int,int>>que;
-
-        int fresh=0;
 
         for(int i=0;i<n;i++)
         {
             for(int j=0;j<m;j++)
             {
-                if(grid[i][j]==1)
-                {
-                    fresh++;
-                }
+                if(grid[i][j]==1) cntfresh++;
                 else if(grid[i][j]==2)
                 {
                     que.push({i,j});
@@ -23,49 +21,34 @@ public:
             }
         }
 
-        if(fresh==0)
-        {
-            return 0;
-        }
-
-        int t=0;
-        int dx[4]={0,-1,0,1};
-        int dy[4]={-1,0,1,0};
+        if(cntfresh==0) return 0;
+        int mntime=0;
 
         while(!que.empty())
         {
             int sz=que.size();
 
-          //  t++;
-
-            for(int i=0;i<sz;i++)
+            for(int l=0;l<sz;l++)
             {
-                auto [x,y]=que.front();
-                que.pop();
+            auto [r,c]=que.front();
+        
+            for(int k=0;k<4;k++)
+            {
+                int nr=r+row[k];
+                int nc=c+col[k];
 
-                for(int i=0;i<4;i++)
+                if(nr>=0 && nr<n && nc>=0 && nc<m && grid[nr][nc]==1)
                 {
-                    int nx=x+dx[i];
-                    int ny=y+dy[i];
-
-
-                    if(nx>=0 && nx<n  && ny>=0 && ny<m && grid[nx][ny]==1)
-                    {
-                        grid[nx][ny]=2;
-                        fresh--;
-                        que.push({nx,ny});
-                    }
+                    grid[nr][nc]=2;
+                    cntfresh--;
+                    que.push({nr,nc});
                 }
             }
-
-            if(!que.empty())
-            {
-            t++;
-            }
+            que.pop();
+        }
+            if(!que.empty()) mntime++;
         }
 
-        return fresh==0?t:-1;
+        return cntfresh==0?mntime:-1;
     }
 };
-//(i,j)
-//{0,-1,0,1},{-1,0,1,0}
