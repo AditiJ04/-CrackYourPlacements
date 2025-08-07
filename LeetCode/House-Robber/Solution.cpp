@@ -1,25 +1,22 @@
 class Solution {
 public:
-
-    int t[101];
-    int Rob(int idx,vector<int>&nums)
+    int amount(vector<int>&nums,vector<int>&dp,int idx)
     {
-        if(idx>=nums.size())
-        {
-            return 0;
-        }
-
-        if(t[idx]!=-1)
-        {
-            return t[idx];
-        }
-       int steal=nums[idx]+Rob(idx+2,nums);
-       int skip=Rob(idx+1,nums);
-
-       return t[idx]=max(steal,skip);
+       if(idx>=nums.size())
+       {
+        return 0;
+       }
+       if(dp[idx]!=-1)
+       {
+        return dp[idx];
+       }
+       return dp[idx]=max(amount(nums,dp,idx+1),nums[idx]+amount(nums,dp,idx+2));
     }
     int rob(vector<int>& nums) {
-        memset(t,-1,sizeof(t));
-        return Rob(0,nums);
+        int n=nums.size();
+
+        vector<int>dp(n,-1);
+
+      return amount(nums,dp,0);
     }
 };
