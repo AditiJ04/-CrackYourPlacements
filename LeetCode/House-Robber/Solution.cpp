@@ -1,35 +1,26 @@
 class Solution {
 public:
-    int t[101];
-    int Rob(vector<int>&nums,int idx)
-    {
-        int take;
-        int ntake;
-        int n=nums.size();
-        if(idx<0)
-        {
-            return 0;
-        }
-
-        if(t[idx]!=-1)
-        {
-            return t[idx];
-        }
-        take=nums[idx]+Rob(nums,idx-2);
-        ntake=Rob(nums,idx-1);
-
-        return t[idx]=max(take,ntake);
-    }
     int rob(vector<int>& nums) {
+        vector<int>t(101,-1);
 
-        memset(t,-1,sizeof(t));
         int n=nums.size();
-        int mxamt=INT_MIN;
-        for(int i=n-1;i>=0;i--)
+
+        if(n==1)
         {
-            mxamt=max(mxamt,Rob(nums,i));
+            return nums[0];
         }
 
-        return mxamt;
+       t[0]=0;
+       t[1]=nums[0];
+
+       for(int i=2;i<=n;i++)
+       {
+        int take=nums[i-1]+t[i-2];
+        int ntake=t[i-1];
+
+        t[i]=max(take,ntake);
+       }
+
+       return t[n];
     }
 };
