@@ -11,24 +11,22 @@
  */
 class Solution {
 public:
-    int findDiameter(TreeNode* root,int &dia)
-    {
-        if(root==NULL)
-        {
-            return 0;
-        }
+    int solve(TreeNode* root, int& res) {
+        if (root == NULL) return 0;
 
-        int lh=findDiameter(root->left,dia);
-        int rh=findDiameter(root->right,dia);
+        int l = solve(root->left, res);
+        int r = solve(root->right, res);
 
-        dia=max(dia,lh+rh);
-        return 1+max(lh,rh);
+        // Update the result with the number of edges in the longest path through root
+        res = max(res, l + r);
+
+        // Return height of the subtree
+        return 1 + max(l, r);
     }
+
     int diameterOfBinaryTree(TreeNode* root) {
-
-        int dia=0;
-        findDiameter(root,dia);
-
-        return dia;
+        int res = 0;
+        solve(root, res);
+        return res; // number of edges, no need to subtract 1 anymore
     }
 };
