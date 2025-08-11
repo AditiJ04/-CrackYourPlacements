@@ -11,8 +11,7 @@
  */
 class Solution {
 public:
-   unordered_map<int,int>mp;
-  /* int findidx(vector<int>& inorder, int ele) {
+   int findidx(vector<int>& inorder, int ele) {
     int n = inorder.size();
     for (int i = 0; i < n; i++) {
         if (ele == inorder[i]) {
@@ -20,7 +19,7 @@ public:
         }
     }
     return -1; // This case should never occur if inputs are valid
-}*/
+}
 
 TreeNode* constructTree(vector<int>& preorder, vector<int>& inorder, int start_idx, int end_idx, int& preorderIndex) {
     // Base case: If there are no elements to construct the tree
@@ -39,7 +38,7 @@ TreeNode* constructTree(vector<int>& preorder, vector<int>& inorder, int start_i
     }
 
     // Find the index of this node in the inorder traversal
-    int inorderIndex =mp[currentVal];
+    int inorderIndex = findidx(inorder, currentVal);
 
     // Recursively build the left and right subtrees
     root->left = constructTree(preorder, inorder, start_idx, inorderIndex - 1, preorderIndex);
@@ -51,11 +50,6 @@ TreeNode* constructTree(vector<int>& preorder, vector<int>& inorder, int start_i
 TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
     int n = preorder.size();
     int preorderIndex = 0; // Start from the first element in preorder
-
-    for(int i=0;i<n;i++)
-    {
-        mp[inorder[i]]=i;
-    }
     return constructTree(preorder, inorder, 0, n - 1, preorderIndex);
 }
 
