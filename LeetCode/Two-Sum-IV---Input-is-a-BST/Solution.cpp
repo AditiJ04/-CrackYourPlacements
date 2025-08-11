@@ -1,40 +1,17 @@
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
 class Solution {
-public:
+    HashSet<Integer> set = new HashSet<>();
 
-    unordered_map<int,int>mp;
+    public boolean findTarget(TreeNode root, int k) {
+        // Base case: null node
+        if (root == null) return false;
 
-    bool findSum(TreeNode* root,int k)
-    {
-        if(root==NULL) return true;
+        // If complement is found, return true
+        if (set.contains(k - root.val)) return true;
 
-        if(mp.find(k-root->val)!=mp.end()) return true;
-        
-        mp[root->val]++;
+        // Otherwise, add current node value to the set
+        set.add(root.val);
 
-        if(root->left)
-        {
-          if(findSum(root->left,k)) return true;
-        }
-
-        if(root->right)
-        {
-          if(findSum(root->right,k)) return true;
-        }
-
-        return false;
+        // Recurse on left and right subtrees
+        return findTarget(root.left, k) || findTarget(root.right, k);
     }
-    bool findTarget(TreeNode* root, int k) {
-       return findSum(root,k);
-    }
-};
+}
