@@ -1,30 +1,46 @@
 class Solution {
 public:
     vector<vector<int>> threeSum(vector<int>& nums) {
+        
         int n=nums.size();
-        set<vector<int>>st;
 
         sort(nums.begin(),nums.end());
+
+        set<vector<int>>st;
+
+        vector<vector<int>>ans;
+
         for(int i=0;i<n;i++)
         {
-            if(i>0 && nums[i]==nums[i-1]) continue;
+            int j=i+1;
+            int k=n-1;
 
-            int sj=i+1;
-            unordered_map<int,int>mp;
-            for(int j=i+1;j<n;j++)
+            while(j<k)
             {
-                
-                 int sum=nums[i]+nums[j];
-                 int diff=0-sum;
+                int sum=nums[i]+nums[j]+nums[k];
 
-                 if(mp.find(diff)!=mp.end())
-                 {
-                    st.insert({nums[i],diff,nums[j]});
-                 }
-                 mp[nums[j]]++;
+                if(sum==0)
+                {
+                    st.insert({nums[i],nums[j],nums[k]});
+                    j++;
+                    k--;
+                }
+                else if(sum<0)
+                {
+                    j++;
+                }
+                else if(sum>0)
+                {
+                    k--;
+                }
             }
         }
 
-        return vector<vector<int>>(st.begin(),st.end());
+        for(auto it:st)
+        {
+            ans.push_back(it);
+        }
+
+        return ans;
     }
 };
