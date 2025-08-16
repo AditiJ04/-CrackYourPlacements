@@ -1,79 +1,35 @@
 class Solution {
 public:
-    int generateP(char ch)
+
+    int get(char c)
     {
-        if(ch=='(')
-        {
-            return 1;
-        }
-
-        if(ch=='[')
-        {
-            return 2;
-        }
-
-        if(ch=='{')
-        {
-            return 3;
-        }
-
-
-        if(ch==')')
-        {
-            return -1;
-        }
-
-        if(ch==']')
-        {
-            return -2;
-        }
-
+        if(c=='(') return 1;
+        if(c=='{') return 2;
+        if(c=='[') return 3;
+        if(c==')') return -1;
+        if(c=='}') return -2;
         return -3;
     }
     bool isValid(string s) {
-        stack<int>st;
-
         int n=s.size();
+
+        stack<int>st;
 
         for(int i=0;i<n;i++)
         {
-
-            if(st.empty())
+            int val=get(s[i]);
+            if(val>0) st.push(val);
+            else if( !st.empty() && abs(val)==st.top())
             {
-                int val=generateP(s[i]);
-                if(val<0)
-                {
-                    return false;
-                }
-                st.push(val);
+                st.pop();
             }
-
-            else 
+            else
             {
-                int val=generateP(s[i]);
-
-                if(st.top()>0 && val>0)
-                {
-                    st.push(val);
-                }
-                else 
-                {
-                    if(st.top()==abs(val))
-                    {
-                        st.pop();
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
+                return false;
             }
         }
 
-        if(!st.empty())
-        {
-            return false;
-        }
+        if(!st.empty()) return false;
         return true;
     }
 };
