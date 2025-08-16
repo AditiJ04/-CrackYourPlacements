@@ -1,46 +1,15 @@
-class Solution {
-public:
-    vector<vector<int>> threeSum(vector<int>& nums) {
-        
-        int n=nums.size();
+If i > 0 and nums[i] == nums[i-1], skip to avoid duplicates.
 
-        sort(nums.begin(),nums.end());
+Set two pointers:
 
-        set<vector<int>>st;
+left = i + 1, right = n - 1
 
-        vector<vector<int>>ans;
+While left < right:
 
-        for(int i=0;i<n;i++)
-        {
-            int j=i+1;
-            int k=n-1;
+Calculate the sum of the three elements.
 
-            while(j<k)
-            {
-                int sum=nums[i]+nums[j]+nums[k];
+If sum is 0 → store the triplet.
 
-                if(sum==0)
-                {
-                    st.insert({nums[i],nums[j],nums[k]});
-                    j++;
-                    k--;
-                }
-                else if(sum<0)
-                {
-                    j++;
-                }
-                else if(sum>0)
-                {
-                    k--;
-                }
-            }
-        }
+If sum < 0 → move left forward.
 
-        for(auto it:st)
-        {
-            ans.push_back(it);
-        }
-
-        return ans;
-    }
-};
+If sum > 0 → move right backward.
