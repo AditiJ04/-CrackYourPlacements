@@ -7,11 +7,9 @@ public:
     }
     
     void push(int x) {
-
-        int sz=que.size();
         que.push(x);
 
-        for(int i=0;i<sz;i++)
+        for(int i=0;i<que.size()-1;i++)
         {
             que.push(que.front());
             que.pop();
@@ -19,9 +17,10 @@ public:
     }
     
     int pop() {
-        int n=que.front();
+        int t=que.front();
         que.pop();
-        return n;
+
+        return t;
     }
     
     int top() {
@@ -29,7 +28,7 @@ public:
     }
     
     bool empty() {
-        return que.size()==0;
+        return que.empty();
     }
 };
 
