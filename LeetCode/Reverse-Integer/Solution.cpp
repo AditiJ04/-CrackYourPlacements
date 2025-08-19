@@ -1,19 +1,17 @@
 class Solution {
 public:
     int reverse(int x) {
-        int flg=0;
-        if(x<0) flg=1;
-
-        long long num=0;
-
-        long long y=x;
-        y=abs(y);
-        while(y!=0)
+        int r=0;
+        while(x!=0)
         {
-            int r=y%10;
-            num=num*10+r;
-            y/=10;
+            int d=x%10;
+            if((r>INT_MAX/10)||(r<INT_MIN/10))
+            {
+                return 0;
+            }
+            r=r*10+d;
+            x=x/10;
         }
-        return (num>=INT_MIN && num<=INT_MAX)?(flg?(-1)*num:num):0;
+        return r;
     }
 };
