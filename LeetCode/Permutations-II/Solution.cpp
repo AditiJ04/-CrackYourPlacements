@@ -1,28 +1,30 @@
 class Solution {
 public:
-    vector<vector<int>>ans;
-    void findPerm(vector<int>nums,int idx)
+    void permut(vector<int>nums,vector<vector<int>>&ans,int start)
     {
-        if(idx==nums.size())
+        if(start==nums.size())
         {
             ans.push_back(nums);
             return;
         }
-        for(int i=idx;i<nums.size();i++)
+        else
         {
-            if(i==idx || nums[i]!=nums[idx])
+            for(int j=start;j<nums.size();j++)
             {
-            swap(nums[i],nums[idx]);
-            findPerm(nums,idx+1);
+                if(j==start || nums[j]!=nums[start])
+                {
+                    swap(nums[j],nums[start]);
+                    permut(nums,ans,start+1);
+                }
             }
         }
     }
     vector<vector<int>> permuteUnique(vector<int>& nums) {
-        int n=nums.size();
-
         sort(nums.begin(),nums.end());
 
-        findPerm(nums,0);
+        vector<vector<int>>ans;
+
+        permut(nums,ans,0);
 
         return ans;
     }
