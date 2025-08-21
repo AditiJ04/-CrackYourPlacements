@@ -12,21 +12,17 @@
 class Solution {
 public:
 
-     bool Validate(TreeNode* root,long long mini,long long maxi)
-    {
-        if(root==NULL)
-        {
-            return true;
-        }
-
-        if(root->val<=mini || root->val>=maxi)
-        {
-            return false;
-        }
-
-        return Validate(root->left,mini,root->val) && Validate(root->right,root->val,maxi);
-    }
+   bool ValidateBST(TreeNode* root, long long mini, long long maxi) {
+    if (!root) return true;
+    if (root->val <= mini || root->val >= maxi) return false;
+    return ValidateBST(root->left, mini, root->val) &&
+           ValidateBST(root->right, root->val, maxi);
+}
     bool isValidBST(TreeNode* root) {
-        return Validate(root,LLONG_MIN,LLONG_MAX);
+        if(root==NULL) return true;
+
+        if(root->left==NULL && root->right==NULL) return true;
+
+        return ValidateBST(root,LLONG_MIN,LLONG_MAX);
     }
 };
