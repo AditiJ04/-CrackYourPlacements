@@ -3,26 +3,24 @@ public:
     int findKthPositive(vector<int>& arr, int k) {
         int n=arr.size();
 
-        int num=1;
-        int i=0;
+        int l=0;
+        int h=n-1;
 
-        while(i<n && k>0)
+        while(l<=h)
         {
-            if(arr[i]==num)
+            int mid=(l+h)/2;
+            int missingele=arr[mid]-(mid+1);
+
+            if(missingele<k)
             {
-                i++;
+                l=mid+1;
             }
             else
             {
-                k--;
+                h=mid-1;
             }
-            num++;
-        }
-        while(k--)
-        {
-            num++;
         }
 
-        return num-1;
+        return l+k;
     }
 };
