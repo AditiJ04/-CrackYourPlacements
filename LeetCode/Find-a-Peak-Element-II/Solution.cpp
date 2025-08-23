@@ -1,23 +1,31 @@
 class Solution {
 public:
     vector<int> findPeakGrid(vector<vector<int>>& mat) {
-       int n=mat.size();
-       int m=mat[0].size();
+        int row = mat.size();
+        int col = mat[0].size();
 
-       for(int i=0;i<n;i++)
-       {
-        for(int j=0;j<m;j++)
-        {
-            int curr=mat[i][j];
-            if(j>0 && mat[i][j-1]>=curr) continue;
-            if(j<m-1 && mat[i][j+1]>=curr) continue;
-            if(i<n-1 && mat[i+1][j]>=curr) continue;
-            if(i>0 && mat[i-1][j]>=curr) continue;
+        int s = 0;
+        int e = col-1;
 
-            return {i,j};
+        while(s < mat.size() && e >= 0){
+
+            int leftVal = (e - 1 >= 0) ? mat[s][e-1] : -1;
+            int rightVal = (e + 1 < col) ? mat[s][e+1] : -1;
+            int upVal = (s - 1 >= 0) ? mat[s-1][e] : -1;
+            int downVal = (s + 1 < row) ? mat[s+1][e] : -1;
+
+            if(mat[s][e] > leftVal && mat[s][e] > rightVal && mat[s][e] > upVal && mat[s][e] > downVal){
+                return {s, e};
+            }else if( leftVal > mat[s][e]){
+                e--;
+            }else if(rightVal > mat[s][e]){
+                e++;
+            }else if(upVal > mat[s][e]){
+                s--;
+            }else{
+                s++;
+            }
         }
-       }
-
-        return {-1,-1};
+        return {-1, -1}; // Should not reach here in valid input
     }
 };
