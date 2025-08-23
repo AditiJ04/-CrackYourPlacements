@@ -1,31 +1,66 @@
-class Solution {
-public:
-    vector<int> findPeakGrid(vector<vector<int>>& mat) {
-        int row = mat.size();
-        int col = mat[0].size();
-
-        int s = 0;
-        int e = col-1;
-
-        while(s < mat.size() && e >= 0){
-
-            int leftVal = (e - 1 >= 0) ? mat[s][e-1] : -1;
-            int rightVal = (e + 1 < col) ? mat[s][e+1] : -1;
-            int upVal = (s - 1 >= 0) ? mat[s-1][e] : -1;
-            int downVal = (s + 1 < row) ? mat[s+1][e] : -1;
-
-            if(mat[s][e] > leftVal && mat[s][e] > rightVal && mat[s][e] > upVal && mat[s][e] > downVal){
-                return {s, e};
-            }else if( leftVal > mat[s][e]){
-                e--;
-            }else if(rightVal > mat[s][e]){
-                e++;
-            }else if(upVal > mat[s][e]){
-                s--;
-            }else{
-                s++;
+ int findmax(vector<vector<int>> &mat , int r)
+    {
+        int maxe=INT_MIN;
+        int idx=0;
+        for(int i=0;i<mat[0].size();i++)
+        {
+            
+            if(maxe<mat[r][i])
+            {
+                maxe=mat[r][i];
+                idx=i;
             }
         }
-        return {-1, -1}; // Should not reach here in valid input
+        return idx;
     }
-};
+    vector<int> findPeakGrid(vector<vector<int>>& mat) {
+        // Using Binary Search
+        int m=mat.size() , n=mat[0].size();
+        int l=0 , r=m-1;
+        
+        while(l<=r)
+        {
+            int mid=(l+(r-l)/2);
+            
+            int c=findmax(mat , mid);
+            
+            int val=mat[mid][c];
+            
+            if(mid==0)
+            {
+                if(mat[mid+1][c] < val)
+                {
+                    return {mid , c};
+                }
+            }
+            else
+            if(mid==m-1)
+            {
+                if(mat[mid-1][c]<val)
+                {
+                    return {mid , c};
+                }
+            }
+            else
+            if(val>mat[mid+1][c] && val>mat[mid-1][c])
+            {
+                return {mid , c};
+            }
+            
+            
+            if( val<mat[mid+1][c]) // This is general binary search 
+            {                        // here above condition become false and so value at 
+                                     // mat[mid+1][c] is greater so we move downward 
+                l=mid+1;
+            }
+            else
+            {                     // else we move upward 
+                r=mid-1;
+            }
+            
+            
+        }
+        
+        return {-1 , -1};
+        
+    }
