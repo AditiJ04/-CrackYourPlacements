@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int gcdOfOddEvenSums(int n) {
+        int sumeven=0;
+        int sumodd=0;
+
+        int k=n;
+
+        int o=1;
+        int e=2;
+        while(k!=0)
+        {
+            sumodd+=o;
+            o+=2;
+            k--;
+        }
+        k=n;
+
+        while(k!=0)
+        {
+            sumeven+=e;
+            e+=2;
+            k--;
+        }
+
+        return __gcd(sumodd,sumeven);
+    }
+};
