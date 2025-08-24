@@ -1,0 +1,25 @@
+class Solution {
+public:
+    bool partitionArray(vector<int>& nums, int k) {
+
+        int n=nums.size();
+
+        if(n%k!=0) return false;
+        unordered_map<int,int>mp;
+
+        for(int i=0;i<n;i++)
+        {
+           mp[nums[i]]++;
+        }
+        int mxcnt=0;
+
+        for(auto it:mp)
+        {
+            mxcnt=max(mxcnt,it.second);
+        }
+        int grps=n/k;
+        if(mxcnt>grps) return false;
+
+        return true;
+    }
+};
