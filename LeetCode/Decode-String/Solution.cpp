@@ -1,63 +1,40 @@
 class Solution {
 public:
-    bool checkNumber(string &s)
-    {
-        int n=s.size();
-        for(int i=0;i<n;i++)
-        {
-            if(!isdigit(s[i])) return false;
-        }
-
-        return true;
-    }
     string decodeString(string s) {
-        stack<char>st;
         int n=s.size();
 
+        stack<pair<int,string>>st;
+
+        int currnum=0;
+        string currstr="";
         for(int i=0;i<n;i++)
         {
-            if(s[i]==']')
+            if(isdigit(s[i]))
             {
-                string ans="";
-                while(st.top()!='[')
-                {
-                    ans+=st.top();
-                    st.pop();
-                }
-                reverse(ans.begin(),ans.end());
-        
-                st.pop();
-
-                string numstr="";
-
-                while(!st.empty() && isdigit(st.top()))
-                {
-                    numstr=st.top()+numstr;
-                    st.pop();
-                }
-                int val=stoi(numstr);
-                string res="";
-                while(val!=0)
-                {
-                    res+=ans;
-                    val--;
-                }
-                for(int i=0;i<res.size();i++) st.push(res[i]);
-                continue;
+                currnum=currnum*10+s[i]-'0';
             }
-
-            st.push(s[i]);
+            else if(isalpha(s[i]))
+            {
+                currstr.push_back(s[i]);
+            }
+            else if(s[i]=='[')
+            {
+                st.push({currnum,currstr});
+                currnum=0;
+                currstr="";
+            }
+        
+            else if(s[i]==']')
+            {
+                string prevstr=st.top().second;
+                for(int i=0;i<st.top().first;i++)
+                {
+                    prevstr+=currstr;
+                }
+                st.pop();
+                currstr=prevstr;
+            }
         }
-
-        string fans="";
-
-        while(!st.empty())
-        {
-            fans+=st.top();
-            st.pop();
-        }
-
-        reverse(fans.begin(),fans.end());
-        return fans;
+        return currstr;
     }
 };
