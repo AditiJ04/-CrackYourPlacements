@@ -1,40 +1,31 @@
 class Solution {
 public:
     string decodeString(string s) {
-        int n=s.size();
+          int n = s.size();
+    stack<pair<int, string>> st; // Pair of count and string
 
-        stack<pair<int,string>>st;
+    string currStr;
+    int currNum = 0;
 
-        int currnum=0;
-        string currstr="";
-        for(int i=0;i<n;i++)
-        {
-            if(isdigit(s[i]))
-            {
-                currnum=currnum*10+s[i]-'0';
+    for (int i = 0; i < n; ++i) {
+        if (isdigit(s[i])) {
+            currNum = currNum * 10 + (s[i] - '0');
+        } else if (isalpha(s[i])) {
+            currStr.push_back(s[i]);
+        } else if (s[i] == '[') {
+            st.push({currNum, currStr});
+            currNum = 0;
+            currStr.clear();
+        } else if (s[i] == ']') {
+            int repeat = st.top().first;
+            string prevStr = st.top().second;
+            st.pop();
+            for (int j = 0; j < repeat; ++j) {
+                prevStr += currStr;
             }
-            else if(isalpha(s[i]))
-            {
-                currstr.push_back(s[i]);
-            }
-            else if(s[i]=='[')
-            {
-                st.push({currnum,currstr});
-                currnum=0;
-                currstr="";
-            }
-        
-            else if(s[i]==']')
-            {
-                string prevstr=st.top().second;
-                for(int i=0;i<st.top().first;i++)
-                {
-                    prevstr+=currstr;
-                }
-                st.pop();
-                currstr=prevstr;
-            }
+            currStr = prevStr;
         }
-        return currstr;
+    }
+    return currStr;
     }
 };
