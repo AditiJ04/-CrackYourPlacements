@@ -1,3 +1,1 @@
-int nthUglyNumber(int n) {
-    return ar[n-1]; 
-}
+    The time complexity of this approach is O(n).
