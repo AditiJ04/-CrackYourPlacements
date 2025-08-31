@@ -23,7 +23,7 @@ public:
         if(start>n) return;
 
         // ✅ pick start as a factor
-        if(start==1 || n%start==0)
+        if(n%start==0)
         {
             v.push_back(start);
             findDifference(n/start, k-1, v, start);      // reuse same factor
