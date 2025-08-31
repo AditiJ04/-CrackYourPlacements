@@ -1,0 +1,21 @@
+class Solution {
+public:
+    vector<int> recoverOrder(vector<int>& order, vector<int>& friends) {
+        
+        unordered_map<int,int>mp;
+        vector<int>ans;
+
+        for(auto it:friends)
+        {
+                mp[it]++;
+        }
+        int n=order.size();
+
+        for(int i=0;i<n;i++)
+        {
+                if(mp.find(order[i])!=mp.end()) ans.push_back(order[i]);
+        }
+
+        return ans;
+    }
+};
