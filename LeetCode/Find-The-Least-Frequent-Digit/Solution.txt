@@ -1,0 +1,38 @@
+class Solution {
+public:
+    int getLeastFrequentDigit(int n) {
+        string num=to_string(n);
+
+        int m=num.size();
+
+        sort(num.begin(),num.end());
+        map<int,vector<char>>mp;
+
+        int cnt=1;
+        for(int i=1;i<num.size();i++)
+        {
+            if(i>0 && num[i]==num[i-1])
+            {
+                cnt++;
+            }
+            else
+            {
+                mp[cnt].push_back(num[i-1]);
+                cnt=1;
+            }
+        }
+        mp[cnt].push_back(num[m-1]);
+
+        char ch;
+        for(auto it:mp)
+        {
+            ch=it.second[0];
+            break;
+        }
+
+        return (ch-'0');
+    }
+};
+
+//112334457
+//012345678
