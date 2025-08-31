@@ -1,0 +1,43 @@
+class Solution {
+public:
+    int mindiff=INT_MAX;
+    vector<int>res;
+
+    void findDifference(int n,int k,vector<int>&v,int start)
+    {
+        if(k==0)
+        {
+            if(n==1)
+            {
+                int mn=*min_element(v.begin(),v.end());
+                int mx=*max_element(v.begin(),v.end());
+                if(mindiff>(mx-mn))
+                {
+                    mindiff=mx-mn;
+                    res=v;
+                }
+            }
+            return;
+        }
+
+        if(start>n) return;
+
+        // ✅ pick start as a factor
+        if(start==1 || n%start==0)
+        {
+            v.push_back(start);
+            findDifference(n/start, k-1, v, start);      // reuse same factor
+            v.pop_back();
+        }
+
+        // ✅ skip to next factor
+        findDifference(n, k, v, start+1);
+    }
+    
+    vector<int> minDifference(int n, int k) {
+        int sulmariton = n;  // ✅ store input midway
+        vector<int>v;
+        findDifference(n,k,v,1);
+        return res;
+    }
+};
