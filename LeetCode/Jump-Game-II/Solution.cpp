@@ -1,7 +1,7 @@
 class Solution {
 public:
     int jump(vector<int>& nums) {
-        int jumps=0,farthest=0,currend=0;
+        int jmps=0,farthest=0,currend=0;
 
         for(int i=0;i<nums.size()-1;i++)
         {
@@ -9,12 +9,12 @@ public:
 
             if(i==currend)
             {
-                jumps++;
+                jmps++;
                 currend=farthest;
             }
         }
 
-        return jumps;
+        return jmps;
     }
 };
 
