@@ -1,32 +1,12 @@
-class Solution {
-public:
-    vector<int> sumZero(int n) {
-
-        if(n==1) return {0};
-        vector<int>v;
-        if(n%2==0)
-        {
-            for(int i=1;i<=n/2;i++)
-            {
-                v.push_back(i);
-                v.push_back(-1*i);
-            }
-        }
-        else
-        {
-            v.push_back(-1*n);
-            v.push_back(1);
-            v.push_back(n-1);
-
-            int j=2;
-            for(int i=1;i<=(n-3)/2;i++)
-            {
-                v.push_back(j);
-                v.push_back(-1*j);
-                j++;
-            }
-        }
-
-        return v;
-    }
-};
+import math
+from itertools import permutations
+class Solution:
+    def sumZero(self, n: int) -> List[int]:
+        mid = math.ceil(n/2)
+        numbers = [n for n in range(-mid, mid+1)] # array of n/2 in positive and negative directions
+        allPermutations = []
+        allPermutations = permutations(numbers, n) # all permutation of n elements
+        for permutation in allPermutations:
+            permutation = list(permutation)
+            if len(permutation) == n and sum(permutation) == 0:
+                return permutation
