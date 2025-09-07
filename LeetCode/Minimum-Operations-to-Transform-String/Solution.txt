@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int minOperations(string s) {
+        int n=s.size();
+        int mxops=INT_MIN;
+
+        for(int i=0;i<n;i++)
+        {
+            char ch=s[i];
+            int steps=(26-(ch-'a'))%26;
+            mxops=max(mxops,steps);
+        }
+
+        return mxops;
+    }
+};
