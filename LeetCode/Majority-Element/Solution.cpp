@@ -1,30 +1,33 @@
 class Solution {
 public:
     int majorityElement(vector<int>& nums) {
-
         int n=nums.size();
-        int ans=nums[n-1];
-        sort(nums.begin(),nums.end());
 
-        int prev=0;
-        for(int i=1;i<n;i++)
+        int i,candidate=-1,votes=0;
+
+        for(int i=0;i<n;i++)
         {
-            if(nums[i]!=nums[i-1])
+            if(votes==0)
             {
-                int cnt=i-prev;
-
-                if(cnt>ceil(n/2)) 
-                {
-                    return nums[i-1];
-                }
-                prev=i;
+                candidate=nums[i];
+                votes=1;
+            }
+            else
+            {
+                if(nums[i]==candidate) votes++;
+                else votes--;
             }
         }
-        if(n-prev>ceil(n/2)) return nums[n-1];
+
+        int cnt=0;
+
+        for(int i=0;i<n;i++)
+        {
+            if(nums[i]==candidate) cnt++;
+        }
+
+        if(cnt>ceil(n/2)) return candidate;
 
         return -1;
     }
 };
-
-// 2 2 2 3 3 3 3 
-// 0 1 2 3 4 5 6
