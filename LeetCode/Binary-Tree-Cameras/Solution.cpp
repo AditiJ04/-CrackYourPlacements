@@ -1,0 +1,3 @@
+let UNCOVERED = 0
+let COVERED = 1
+let HAS_CAMERA = 2
