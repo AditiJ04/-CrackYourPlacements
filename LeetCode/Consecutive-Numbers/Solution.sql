@@ -1,11 +1,4 @@
-SELECT *
-FROM
-    Logs l1,
-    Logs l2,
-    Logs l3
-WHERE
-    l1.Id = l2.Id - 1
-    AND l2.Id = l3.Id - 1
-    AND l1.Num = l2.Num
-    AND l2.Num = l3.Num
-;
+# Write your MySQL query statement below
+
+select distinct(t1.num) as ConsecutiveNums from Logs t1,Logs t2,Logs t3
+where t1.id=t2.id+1 and t2.id=t3.id+1 and t1.num=t2.num and t2.num=t3.num
