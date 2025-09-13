@@ -3,22 +3,26 @@ public:
     int maxFreqSum(string s) {
         int n=s.size();
 
-        unordered_map<char,int>mp;
+        unordered_map<char,int>vow;
+        unordered_map<char,int>cons;
 
-        for(int i=0;i<n;i++)
+        int mxvow=0;
+        int mxcon=0;
+
+        for(int j=0;j<n;j++)
         {
-            mp[s[i]]++;
+            if(s[j]=='a' || s[j]=='e' || s[j]=='i' || s[j]=='o' || s[j]=='u')
+            {
+                vow[s[j]]++;
+                mxvow=max(mxvow,vow[s[j]]);
+            }
+            else
+            {
+                cons[s[j]]++;
+                mxcon=max(mxcon,cons[s[j]]);
+            }
         }
 
-        int mxv=0,mxc=0;
-        for(auto it:mp)
-        {
-            char c=it.first;
-
-            if(c=='a' || c=='e' || c=='i' || c=='o' || c=='u') mxv=max(mxv,it.second);
-            else mxc=max(mxc,it.second);
-        }
-
-        return mxv+mxc;
+        return mxvow+mxcon;
     }
 };
