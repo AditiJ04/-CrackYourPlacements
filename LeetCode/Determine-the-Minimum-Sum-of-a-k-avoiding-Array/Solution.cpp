@@ -1,24 +1,22 @@
 class Solution {
 public:
     int minimumSum(int n, int k) {
-        int sum=0;
+        int curr=1;
         int cnt=0;
-        int s=1;
+        int sum=0;
 
-        unordered_map<int,int>mp;
         while(cnt!=n)
         {
-            if(s>k || mp.find(k-s)==mp.end()) 
+            if((k-curr)>=curr || curr>=k)
             {
-                sum+=s;
-                mp[s]++;
+                sum+=curr;
                 cnt++;
             }
-            s++;
-            
+            curr++;
         }
+
         return sum;
     }
 };
 
-//1,2,3
+//1 2 4 5 6
