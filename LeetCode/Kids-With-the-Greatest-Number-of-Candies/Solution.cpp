@@ -4,12 +4,11 @@ public:
         int n=candies.size();
 
         vector<bool>ans(n,false);
+        int mx=*max_element(candies.begin(),candies.end());
 
         for(int i=0;i<n;i++)
         {
             int nval=candies[i]+extraCandies;
-            int mx=*max_element(candies.begin(),candies.end());
-
             if(nval>=mx) ans[i]=true;
         }
 
