@@ -1,29 +1,8 @@
-class Solution {
-public:
-    vector<vector<int>> merge(vector<vector<int>>& intervals) {
-        int n=intervals.size();
-        int m=intervals[0].size();
-
-      sort(intervals.begin(), intervals.end());
-
-        vector<vector<int>>ans;
-
-        ans.push_back(intervals[0]);
-
-        int prev=intervals[0][1];
-        for(int i=1;i<n;i++)
-        {
-            if(prev>=intervals[i][0])
-            {
-               // ans.back()[0]=min(ans.back()[0],intervals[i][0]);
-                ans.back()[1]=max(prev,intervals[i][1]);
-                prev=ans.back()[1];
-                continue;
-            }
-            ans.push_back(intervals[i]);
-            prev=ans.back()[1];
-        }
-
-        return ans;
-    }
-};
+[[1,3],[2,6],[8,10],[15,18]]
+[[1,4],[4,5]]
+[[1,1],[2,2],[0,0],[2,3],[1,3],[3,5],[2,3],[3,5]]
+[[2,3],[2,2],[3,3],[1,3],[5,7],[2,2],[4,6]]
+[[1,3],[2,6],[8,10],[8,9],[9,11],[15,18],[2,4],[16,17]]
+[[1012,1136],[1137,1417],[1015,1020]]
+[[1,3]]
+[[1,4],[2,3]]
