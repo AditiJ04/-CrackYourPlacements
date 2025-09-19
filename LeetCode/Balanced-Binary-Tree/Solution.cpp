@@ -14,7 +14,7 @@ public:
     bool set=false;
     int height(TreeNode* root)
     {
-        if(root==NULL || set)
+        if(root==NULL)
         {
             return 0;
         }
