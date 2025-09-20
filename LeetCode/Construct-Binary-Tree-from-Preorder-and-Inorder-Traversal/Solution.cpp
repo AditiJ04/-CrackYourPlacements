@@ -11,46 +11,35 @@
  */
 class Solution {
 public:
-   int findidx(vector<int>& inorder, int ele) {
-    int n = inorder.size();
-    for (int i = 0; i < n; i++) {
-        if (ele == inorder[i]) {
-            return i;
+
+    TreeNode* solve(vector<int>&preorder,vector<int>&inorder,int s,int e,int& idx)
+    {
+        if(s>e) return NULL;
+
+        int i;
+        int currnum=preorder[idx];
+
+        for(i=s;i<=e;i++)
+        {
+            if(inorder[i]==currnum)
+            {
+                break;
+            }
         }
-    }
-    return -1; // This case should never occur if inputs are valid
-}
+        idx++;
 
-TreeNode* constructTree(vector<int>& preorder, vector<int>& inorder, int start_idx, int end_idx, int& preorderIndex) {
-    // Base case: If there are no elements to construct the tree
-    if (start_idx > end_idx) {
-        return nullptr;
-    }
+        TreeNode* root=new TreeNode(currnum);
 
-    // Pick the current node from preorder traversal
-    int currentVal = preorder[preorderIndex];
-    preorderIndex++; // Move to the next element in preorder for the next recursive call
-    TreeNode* root = new TreeNode(currentVal);
+        root->left=solve(preorder,inorder,s,i-1,idx);
+        root->right=solve(preorder,inorder,i+1,e,idx);
 
-    // If the node has no children
-    if (start_idx == end_idx) {
         return root;
     }
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        int n=preorder.size();
 
-    // Find the index of this node in the inorder traversal
-    int inorderIndex = findidx(inorder, currentVal);
+        int idx=0;
 
-    // Recursively build the left and right subtrees
-    root->left = constructTree(preorder, inorder, start_idx, inorderIndex - 1, preorderIndex);
-    root->right = constructTree(preorder, inorder, inorderIndex + 1, end_idx, preorderIndex);
-
-    return root;
-}
-
-TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
-    int n = preorder.size();
-    int preorderIndex = 0; // Start from the first element in preorder
-    return constructTree(preorder, inorder, 0, n - 1, preorderIndex);
-}
-
+        return solve(preorder,inorder,0,n-1,idx);
+    }
 };
