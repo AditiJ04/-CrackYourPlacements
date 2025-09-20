@@ -12,21 +12,14 @@
 class Solution {
 public:
 
+    unordered_map<int,int>mp;
     TreeNode* solve(vector<int>&inorder,vector<int>&postorder,int s,int e,int &idx)
     {
         if(s>e) return NULL;
 
         int currnum=postorder[idx];
 
-        int i=s;
-
-        for(i;i<=e;i++)
-        {
-            if(inorder[i]==currnum)
-            {
-                break;
-            }
-        }
+        int i=mp[currnum];
 
         TreeNode* root=new TreeNode(currnum);
 
@@ -40,6 +33,11 @@ public:
         int n=inorder.size();
 
         int idx=n-1;
+
+        for(int i=0;i<n;i++)
+        {
+            mp[inorder[i]]=i;
+        }
 
         return solve(inorder,postorder,0,n-1,idx);
     }
