@@ -11,48 +11,49 @@
  */
 class Solution {
 public:
-    TreeNode* pX=NULL;
-    TreeNode* pY=NULL;
-    int xl=-1;
-    int yl=-1;
-    void findCousin(TreeNode* root,int x,int y,TreeNode* nnode,int lev)
-    {
-        if(root==NULL)
-        {
-            return;
-        }
-        if(root->val==x)
-        {
-            pX=nnode;
-            xl=lev;
-            return;
-        }
+    int px=-1,py=-1;
+    int dx=-1,dy=-1;
 
-        if(root->val==y)
-        {
-            pY=nnode;
-            yl=lev;
-            return;
-        }
-
-        findCousin(root->left,x,y,root,lev+1);
-        findCousin(root->right,x,y,root,lev+1);
-    }
     bool isCousins(TreeNode* root, int x, int y) {
+        if(root==NULL) return false;
 
-     //   TreeNode* nnode=new TreeNode(-1);
-        if(root==NULL)
+        queue<pair<TreeNode*,TreeNode*>>que;
+
+        que.push({root,root});
+        int lev=0;
+
+        while(!que.empty())
         {
-            return false;
-        }
-        findCousin(root,x,y,NULL,0);
-     //   findCousin(root,y,nnode);
+            int sz=que.size();
+            for(int i=0;i<sz;i++)
+            {
+                auto it=que.front().first;
+                auto par=que.front().second;
 
-        if(xl==yl && pX!=pY)
-        {
-            return true;
+                que.pop();
+                if(it->val==x) 
+                {
+                    px=par->val;
+                    dx=lev;
+                }
+
+                if(it->val==y) 
+                {
+                    py=par->val;
+                    dy=lev;
+                }
+                if(px!=-1 && py!=-1)
+                {
+                    if(dx!=dy || px==py) return false;
+                    return true;
+                }
+
+                if(it->left) que.push({it->left,it});
+                if(it->right) que.push({it->right,it});
+            }
+            lev++;
         }
 
-        return false;
+        return true;
     }
 };
