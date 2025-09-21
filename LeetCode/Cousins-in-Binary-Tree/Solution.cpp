@@ -11,40 +11,47 @@
  */
 class Solution {
 public:
-    int px=-1,dx=-1;
-    int py=-1,dy=-1;
-
-    void findCousins(TreeNode* root,int x,int y,int lev,TreeNode* parRoot)
+    TreeNode* pX=NULL;
+    TreeNode* pY=NULL;
+    int xl=-1;
+    int yl=-1;
+    void findCousin(TreeNode* root,int x,int y,TreeNode* nnode,int lev)
     {
-        if(root==NULL) return;
-
+        if(root==NULL)
+        {
+            return;
+        }
         if(root->val==x)
         {
-            px=parRoot->val;
-            dx=lev;
+            pX=nnode;
+            xl=lev;
             return;
         }
 
         if(root->val==y)
         {
-            py=parRoot->val;
-            dy=lev;
+            pY=nnode;
+            yl=lev;
             return;
         }
-  
-        findCousins(root->left,x,y,lev+1,root);
-        findCousins(root->right,x,y,lev+1,root);
 
+        findCousin(root->left,x,y,root,lev+1);
+        findCousin(root->right,x,y,root,lev+1);
     }
     bool isCousins(TreeNode* root, int x, int y) {
-        findCousins(root,x,y,0,root);
 
-        if(dx!=dy)
+     //   TreeNode* nnode=new TreeNode(-1);
+        if(root==NULL)
         {
             return false;
         }
+        findCousin(root,x,y,NULL,0);
+     //   findCousin(root,y,nnode);
 
-        if(px!=py) return true;
+        if(xl==yl && pX!=pY)
+        {
+            return true;
+        }
 
         return false;
     }
