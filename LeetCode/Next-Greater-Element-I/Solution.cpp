@@ -1,35 +1,37 @@
 class Solution {
 public:
     vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
-        vector<int>v;
-        stack<int>s;
-        for(int i=nums2.size()-1;i>=0;i--)
+        int n=nums2.size();
+
+        unordered_map<int,int>mp;
+        stack<int>st;
+        st.push(n-1);
+        for(int i=n-2;i>=0;i--)
         {
-           while(!s.empty() && s.top()<=nums2[i])
-           {
-               s.pop();
-           }
-           if(!s.empty() && s.top()>nums2[i])
-           {
-               v.push_back(s.top());
-           }
-           else
-           {
-               v.push_back(-1);
-           }
-           s.push(nums2[i]);
+            while(!st.empty() && nums2[i]>nums2[st.top()])
+            {
+                st.pop();
+            }
+
+            if(!st.empty() && nums2[i]<nums2[st.top()]) mp[nums2[i]]=nums2[st.top()];
+
+            if(st.empty() || nums2[st.top()]>nums2[i])
+            {
+                st.push(i);
+            }
         }
-        reverse(v.begin(),v.end());
 
         vector<int>ans;
+
         for(int i=0;i<nums1.size();i++)
         {
-            for(int j=0;j<nums2.size();j++)
+            if(mp.find(nums1[i])!=mp.end())
             {
-                if(nums1[i]==nums2[j])
-                {
-                    ans.push_back(v[j]);
-                }
+                ans.push_back(mp[nums1[i]]);
+            }
+            else
+            {
+                ans.push_back(-1);
             }
         }
         return ans;
