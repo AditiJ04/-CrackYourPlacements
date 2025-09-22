@@ -11,24 +11,25 @@
  */
 class Solution {
 public:
-    int solve(TreeNode* root,int& mxsum)
+
+    int mx=INT_MIN;
+
+    int maxPath(TreeNode* root)
     {
         if(root==NULL) return 0;
-        int lsum=solve(root->left,mxsum);
-        int rsum=solve(root->right,mxsum);
 
-        int tmp=root->val+max(lsum>0?lsum:0,rsum>0?rsum:0);
-        int ans=max({tmp,lsum+rsum+root->val,root->val});
-        mxsum=max(mxsum,ans);
+        int lpath=maxPath(root->left);
+        int rpath=maxPath(root->right);
+
+        int tmp=root->val+max(lpath>0?lpath:0,rpath>0?rpath:0);
+        int ans=max({tmp,lpath+rpath+root->val,root->val});
+        mx=max(mx,ans);
 
         return tmp;
     }
     int maxPathSum(TreeNode* root) {
+        maxPath(root);
 
-        int mxsum=INT_MIN;
-        solve(root,mxsum);
-
-
-        return mxsum;
+        return mx;
     }
 };
