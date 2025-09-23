@@ -39,6 +39,7 @@ public:
                     {
                         grid[nr][nc]=2;
                         fresh_cnt--;
+                        if(fresh_cnt==0) return mntime+1;
                         que.push({nr,nc});
                     }
                 }
