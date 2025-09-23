@@ -6,40 +6,29 @@ public:
         int l=0;
         int h=n-1;
 
-        int mid=l+(h-l)/2;
         while(l<=h)
         {
-            mid=l+(h-l)/2;
-
-            if(nums[mid]==target)
-            {
-                return mid;
-            }
+            int mid=(l+h)/2;
+            if(nums[mid]==target) return mid;
 
             if(nums[l]<=nums[mid])
             {
-                if(nums[l]<=target && target<nums[mid])
-                {
-                    h=mid-1;
-                }
-                else
-                {
-                    l=mid+1;
-                }
+                if(nums[l]<=target && target<nums[mid]) h=mid-1;
+                else l=mid+1;
             }
-            else
+            else 
             {
-                if(nums[mid]<target && target<=nums[h])
-                {
-                    l=mid+1;
-                }
-                else
-                {
-                    h=mid-1;
-                }
+                if(nums[mid]<target && target<=nums[h]) l=mid+1;
+                else h=mid-1;
             }
         }
-
         return -1;
     }
 };
+
+// 4 5 6 7 0 1 2
+// 0 1 2 3 4 5 6
+
+//l=0,h=6,mid=3
+
+//
