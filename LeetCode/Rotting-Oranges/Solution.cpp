@@ -6,49 +6,47 @@ public:
         int n=grid.size();
         int m=grid[0].size();
 
-        int cntfresh=0;
+        int fresh_cnt=0;
         queue<pair<int,int>>que;
 
         for(int i=0;i<n;i++)
         {
             for(int j=0;j<m;j++)
             {
-                if(grid[i][j]==1) cntfresh++;
-                else if(grid[i][j]==2)
-                {
-                    que.push({i,j});
-                }
+                if(grid[i][j]==1) fresh_cnt++;
+                else if(grid[i][j]==2) que.push({i,j});
             }
         }
 
-        if(cntfresh==0) return 0;
         int mntime=0;
-
         while(!que.empty())
         {
             int sz=que.size();
 
-            for(int l=0;l<sz;l++)
+            while(sz--)
             {
-            auto [r,c]=que.front();
-        
-            for(int k=0;k<4;k++)
-            {
-                int nr=r+row[k];
-                int nc=c+col[k];
+                int r=que.front().first;
+                int c=que.front().second;
 
-                if(nr>=0 && nr<n && nc>=0 && nc<m && grid[nr][nc]==1)
+                int nr,nc;
+
+                for(int j=0;j<4;j++)
                 {
-                    grid[nr][nc]=2;
-                    cntfresh--;
-                    que.push({nr,nc});
+                    nr=r+row[j];
+                    nc=c+col[j];
+
+                    if(nr>=0 && nr<n && nc>=0 && nc<m && grid[nr][nc]==1)
+                    {
+                        grid[nr][nc]=2;
+                        fresh_cnt--;
+                        que.push({nr,nc});
+                    }
                 }
+                que.pop();
             }
-            que.pop();
-        }
             if(!que.empty()) mntime++;
         }
 
-        return cntfresh==0?mntime:-1;
+       return fresh_cnt==0?mntime:-1;
     }
 };
