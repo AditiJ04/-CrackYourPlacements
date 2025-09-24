@@ -1,10 +1,12 @@
-CREATE FUNCTION getNthHighestSalary(N INT) RETURNS INT
+/* Write your PL/SQL query statement below */
+CREATE FUNCTION getNthHighestSalary(N IN NUMBER) RETURN NUMBER IS
+result NUMBER;
 BEGIN
-  set N=N-1;
-  RETURN (
-      # Write your MySQL query statement below.
-      select distinct salary from Employee
-      order by salary desc limit 1 offset N
-
-  );
-END
+SELECT  DISTINCT salary  INTO result FROM 
+(SELECT salary,DENSE_RANK() OVER (ORDER BY salary DESC) R 
+FROM  Employee) WHERE R = N;
+RETURN result;
+EXCEPTION
+WHEN NO_DATA_FOUND THEN
+RETURN NULL;
+END;
