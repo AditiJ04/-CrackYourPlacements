@@ -1,27 +1,40 @@
 class Solution {
 public:
-
-    vector<vector<int>>res;
-    void dfs(vector<vector<int>>&graph,vector<vector<int>>&adj,vector<int>&v,int s)
+    vector<vector<int>>bfs(vector<vector<int>>adj,int dest,int src)
     {
-        v.push_back(s);
+        queue<vector<int>>q;
+        vector<int>path;
 
-        if(s==graph.size()-1)
+        vector<vector<int>>ans;
+
+        q.push({src});
+
+        while(!q.empty())
         {
-            res.push_back(v);
-            return;
+            path=q.front();
+            q.pop();
+
+            int v=path.back();
+
+            if(v==dest-1)
+            {
+                ans.push_back(path);
+            }
+
+            for(auto ad:adj[v])
+            {
+                vector<int>vi=path;
+                vi.push_back(ad);
+                q.push(vi);
+            }
         }
-        for(auto it:adj[s])
-        {
-            dfs(graph,adj,v,it);
-            v.pop_back();
-        }
+
+        return ans;
     }
     vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph) {
         int n=graph.size();
-        int m=graph[0].size();
-        vector<vector<int>>adj(n);
-        vector<vector<int>>vis(n,vector<int>(m,0));
+
+        vector<vector<int>>adj(n,vector<int>());
 
         for(int i=0;i<n;i++)
         {
@@ -31,19 +44,6 @@ public:
             }
         }
 
-        vector<int>v;
-        dfs(graph,adj,v,0);
-
-        return res;
+        return bfs(adj,n,0);
     }
 };
-
-
-//0->1,2
-//1->3
-//2->3
-
-//0->4,3,1
-//1->3,2,4
-//2->3
-//3->4
