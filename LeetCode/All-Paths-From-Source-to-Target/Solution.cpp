@@ -1,49 +1,29 @@
 class Solution {
 public:
-    vector<vector<int>>bfs(vector<vector<int>>adj,int dest,int src)
+    void dfs(int src,int dest,vector<vector<int>>&graph,vector<int>&ans,vector<vector<int>>&res)
     {
-        queue<vector<int>>q;
-        vector<int>path;
+        ans.push_back(src);
 
-        vector<vector<int>>ans;
-
-        q.push({src});
-
-        while(!q.empty())
+        if(src==dest)
         {
-            path=q.front();
-            q.pop();
-
-            int v=path.back();
-
-            if(v==dest-1)
-            {
-                ans.push_back(path);
-            }
-
-            for(auto ad:adj[v])
-            {
-                vector<int>vi=path;
-                vi.push_back(ad);
-                q.push(vi);
-            }
+            res.push_back(ans);
+            ans.pop_back();
+            return;
         }
 
-        return ans;
+        for(auto it:graph[src])
+        {
+            dfs(it,dest,graph,ans,res);
+        }
+        ans.pop_back();
     }
     vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph) {
         int n=graph.size();
 
-        vector<vector<int>>adj(n,vector<int>());
+        vector<vector<int>>res;
+        vector<int>ans;
 
-        for(int i=0;i<n;i++)
-        {
-            for(int j=0;j<graph[i].size();j++)
-            {
-                adj[i].push_back(graph[i][j]);
-            }
-        }
-
-        return bfs(adj,n,0);
+        dfs(0,n-1,graph,ans,res);
+        return res;
     }
 };
