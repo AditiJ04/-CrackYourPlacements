@@ -1,35 +1,45 @@
-class TreeNode:
-    def __init__(self, val):
-        self.val = val
-        self.left = None
-        self.right = None
-        self.size = 1
+class Solution {
+public:
+    typedef long long ll;
+    ll mod=1e9+7;
 
-class Solution:
-    def numOfWays(self, nums: List[int]) -> int:
-        def insert_in_tree(node, val):
-            if not node:
-                return TreeNode(val)
-            else:
-                node.size += 1
-                if val < node.val:
-                    node.left = insert_in_tree(node.left, val)
-                else:
-                    node.right = insert_in_tree(node.right, val)
-                return node
-        
-        tree = None
-        for num in nums:
-            tree = insert_in_tree(tree, num)
+    vector<vector<ll>>PT;
 
-        def interleave_count(l, r):
-            ls, rs = l.size if l else 0, r.size if r else 0
-            return comb(ls + rs, ls)
+    int solve(vector<int>&nums)
+    {
+        int m=nums.size();
 
-        def num_of_ways(node):
-            if node is None:
-                return 1
-            return num_of_ways(node.left) * num_of_ways(node.right) * \
-                interleave_count(node.left, node.right) % 1000000007
-        
-        return num_of_ways(tree) - 1
+        if(m<3) return 1;
+
+        vector<int>L,R;
+
+        int root=nums[0];
+        for(int i=1;i<m;i++)
+        {
+            if(nums[i]<root) L.push_back(nums[i]);
+            else R.push_back(nums[i]);
+        }
+
+        ll leftways=solve(L)%mod;
+        ll rightways=solve(R)%mod;
+
+        return (((leftways*rightways)%mod)*PT[m-1][L.size()])%mod;
+    }
+    int numOfWays(vector<int>& nums) {
+        int n=nums.size();
+
+        PT.resize(n);
+
+        for(int i=0;i<n;i++)
+        {
+            PT[i]=vector<long long>(i+1,1);
+
+            for(int j=1;j<i;j++)
+            {
+                PT[i][j]=(PT[i-1][j-1]+PT[i-1][j])%mod;
+            }
+        }
+
+        return (solve(nums)-1)%mod;
+    }
+};
