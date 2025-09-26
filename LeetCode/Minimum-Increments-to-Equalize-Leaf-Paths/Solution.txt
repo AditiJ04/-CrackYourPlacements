@@ -1,0 +1,43 @@
+class Solution {
+public:
+    pair<long long, long long> help(int u, int p, vector<vector<int>>& adj,
+                                    vector<int>& cost) {
+        bool isLeaf = true;
+        vector<long long> childSum, childCnt;
+        long long mxSum = 0LL;
+        long long totalCnt = 0;
+
+        for (auto v : adj[u]) {
+            if (v == p)
+                continue;
+            isLeaf = false;
+            auto cur = help(v, u, adj, cost);
+            childSum.push_back(cur.first);
+            childCnt.push_back(cur.second);
+            mxSum = max(mxSum, cur.first);
+            totalCnt += cur.second;
+        }
+
+        if (isLeaf) {
+            return make_pair(cost[u], 0);
+        }
+
+        long long extra = 0LL;
+        for (auto i : childSum) {
+            if (i < mxSum) {
+                extra++;
+            }
+        }
+        return make_pair(cost[u] + mxSum, totalCnt + extra);
+    }
+    int minIncrease(int n, vector<vector<int>>& edges, vector<int>& cost) {
+        vector<vector<int>> adj(n);
+        for (auto i : edges) {
+            adj[i[0]].push_back(i[1]);
+            adj[i[1]].push_back(i[0]);
+        }
+
+        auto ans = help(0, -1, adj, cost);
+        return ans.second;
+    }
+};
