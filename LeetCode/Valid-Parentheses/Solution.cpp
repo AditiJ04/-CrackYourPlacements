@@ -1,21 +1,33 @@
 class Solution {
 public:
+    int getChar(char c)
+    {
+        if(c=='(') return 1;
+        if(c=='{') return 2;
+        if(c=='[') return 3;
+        if(c==')') return -1;
+        if(c=='}') return -2;
+
+        return -3;
+    }
     bool isValid(string s) {
-        int top = -1;
-        for(int i =0;i<s.length();++i){
-            if(top<0 || !isMatch(s[top], s[i])){
-                ++top;
-                s[top] = s[i];
-            }else{
-                --top;
+        int n=s.size();
+
+        stack<char>st;
+
+        for(int i=0;i<n;i++)
+        {
+            int num=getChar(s[i]);
+            if(st.empty() && num<0) return false;
+            if(num>0 || st.empty()) st.push(s[i]);
+            else
+            {
+                if(abs(num)==getChar(st.top())) st.pop();
+                else return false;
             }
         }
-        return top == -1;
-    }
-    bool isMatch(char c1, char c2){
-        if(c1 == '(' && c2 == ')') return true;
-        if(c1 == '[' && c2 == ']') return true;
-        if(c1 == '{' && c2 == '}') return true;
+        if(st.empty()) return true;
+
         return false;
     }
 };
