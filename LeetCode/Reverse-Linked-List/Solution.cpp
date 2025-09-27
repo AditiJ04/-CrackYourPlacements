@@ -15,12 +15,12 @@ public:
         ListNode* q=NULL;
         ListNode* r=NULL;
 
-        while(p)
+        while(p!=NULL)
         {
-            r=q;
             q=p;
             p=p->next;
             q->next=r;
+            r=q;
         }
 
         return q;
