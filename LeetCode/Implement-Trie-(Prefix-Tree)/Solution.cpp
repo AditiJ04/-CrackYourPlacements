@@ -1,12 +1,13 @@
-class TrieNode{
-      public:
-
-      unordered_map<char,TrieNode*>mp;
-      bool endOfWord=false;
+class TrieNode
+{
+    public:
+    unordered_map<char,TrieNode*>mp;
+    bool endOfWord=false;
 };
 class Trie {
-    TrieNode* root;
 public:
+
+    TrieNode* root;
     Trie() {
         root=new TrieNode();
     }
@@ -30,16 +31,10 @@ public:
 
         for(auto c:word)
         {
-            if(node->mp.find(c)==node->mp.end())
-            {
-                return false;
-            }
+            if(node->mp.find(c)==node->mp.end()) return false;
             node=node->mp[c];
         }
-        if(node->endOfWord)
-        {
-        return true;
-        }
+        if(node->endOfWord) return true;
 
         return false;
     }
