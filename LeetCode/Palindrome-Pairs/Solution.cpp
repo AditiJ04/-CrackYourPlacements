@@ -1,52 +1,36 @@
-class Solution {
-public:
-      bool isPalindrome(const string& s) {
-        int l = 0, r = s.size() - 1;
-        while (l < r) {
-            if (s[l++] != s[r--]) return false;
+var palindromePairs = function(words) {  
+    let wmap = new Map(), ans = []
+    for (let i = 0; i < words.length; i++)
+        wmap.set(words[i], i)
+    for (let i = 0; i < words.length; i++) {
+        if (words[i] === "") {
+            for (let j = 0; j < words.length; j++)
+                if (isPal(words[j]) && j !== i)
+                    ans.push([i, j], [j, i])
+            continue
         }
-        return true;
+        let bw = words[i].split("").reverse().join("")
+        let res = wmap.get(bw)
+        if (res !== undefined && res !== i)
+            ans.push([i, res])
+        for (let j = 1; j < bw.length; j++) {
+            if (isPal(bw, 0, j - 1)) {
+                let res = wmap.get(bw.slice(j))
+                if (res !== undefined)
+                    ans.push([i, res])
+            }
+            if (isPal(bw, j)) {
+                let res = wmap.get(bw.slice(0,j))
+                if (res !== undefined)
+                    ans.push([res, i])
+            }
+        }
     }
-
-    vector<vector<int>> palindromePairs(vector<string>& words) {
-        unordered_map<string, int> reverse_map;
-        vector<vector<int>> res;
-
-        // Build reverse map
-        for (int i = 0; i < words.size(); ++i) {
-            string rev = words[i];
-            reverse(rev.begin(), rev.end());
-            reverse_map[rev] = i;
-        }
-
-        for (int i = 0; i < words.size(); ++i) {
-            string word = words[i];
-
-            // Case 1: Exact reverse match
-            if (reverse_map.count(word) && reverse_map[word] != i) {
-                res.push_back({i, reverse_map[word]});
-            }
-
-            // Case 2: Empty string with palindromes
-            if (!word.empty() && reverse_map.count("") && isPalindrome(word)) {
-                res.push_back({i, reverse_map[""]});
-                res.push_back({reverse_map[""], i});
-            }
-
-            // Case 3: Check all possible splits
-            for (int j = 1; j < word.size(); ++j) {
-                string prefix = word.substr(0, j);
-                string suffix = word.substr(j);
-
-                if (isPalindrome(prefix) && reverse_map.count(suffix)) {
-                    res.push_back({reverse_map[suffix], i});
-                }
-                if (isPalindrome(suffix) && reverse_map.count(prefix)) {
-                    res.push_back({i, reverse_map[prefix]});
-                }
-            }
-        }
-
-        return res;
-    }
+    return ans
 };
+
+const isPal = (word, i=0, j=word.length-1) => {
+    while (i < j)
+        if (word[i++] !== word[j--]) return false
+    return true
+}
