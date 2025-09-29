@@ -1,35 +1,18 @@
 class Solution {
 public:
+    int n,dp[101];
+    int maxAmount(vector<int>&nums,int idx)
+    {
+        if(idx>=nums.size()) return 0;
+        if(dp[idx]!=-1) return dp[idx];
+        int take=nums[idx]+maxAmount(nums,idx+2);
+        int ntake=maxAmount(nums,idx+1);
+
+        return dp[idx]=max(take,ntake);
+    }
     int rob(vector<int>& nums) {
-       int n=nums.size();
-
-       if(n==1)
-       {
-        return nums[0];
-       }
-       //vector<int>t(n+1,0);
-
-       //t[i]=max stolen money till i house
-
-       //no house : i=0;
-       int pprev=0;
-
-       //1 house:i=1
-       int prev=nums[0];
-
-       for(int i=2;i<=n;i++)
-       {
-        int steal=nums[i-1]+pprev;
-        int skip=prev;
-
-        int tmp=max(steal,skip);
-
-        pprev=prev;
-        prev=tmp;
-
-
-       }
-
-       return prev; 
+        n=nums.size();
+        memset(dp,-1,sizeof(dp));
+        return maxAmount(nums,0);
     }
 };
