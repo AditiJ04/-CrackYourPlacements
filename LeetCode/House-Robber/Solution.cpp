@@ -1,18 +1,17 @@
 class Solution {
 public:
-    int n,dp[101];
-    int maxAmount(vector<int>&nums,int idx)
-    {
-        if(idx>=nums.size()) return 0;
-        if(dp[idx]!=-1) return dp[idx];
-        int take=nums[idx]+maxAmount(nums,idx+2);
-        int ntake=maxAmount(nums,idx+1);
-
-        return dp[idx]=max(take,ntake);
-    }
     int rob(vector<int>& nums) {
-        n=nums.size();
-        memset(dp,-1,sizeof(dp));
-        return maxAmount(nums,0);
+        int n=nums.size();
+        int prev=0;
+        int curr=nums[0];
+
+        for(int i=1;i<n;i++)
+        {
+            int prev1=curr;
+            curr=max(curr,nums[i]+prev);
+            prev=prev1;
+        }
+
+        return curr;
     }
 };
