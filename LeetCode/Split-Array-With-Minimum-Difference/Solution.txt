@@ -1,0 +1,54 @@
+class Solution {
+public:
+    long long splitArray(vector<int>& nums) {
+        int n = nums.size();
+
+        if (n < 2)
+            return -1;
+
+        vector<int> Inc(n, 0), Dec(n, 0);
+        vector<long long> pre(n, 0), suff(n, 0);
+
+        Inc[0] = 1;
+
+        for (int i = 1; i < n; i++) {
+            if (nums[i] > nums[i - 1] && Inc[i - 1])
+                Inc[i] = 1;
+        }
+
+        Dec[n - 1] = 1;
+
+        for (int i = n - 2; i >= 0; i--) {
+            if (nums[i] > nums[i + 1] && Dec[i + 1])
+                Dec[i] = 1;
+        }
+
+        pre[0] = nums[0];
+
+        for (int i = 1; i < n; i++) {
+            pre[i] = pre[i - 1] + nums[i];
+        }
+
+        suff[n - 1] = nums[n - 1];
+
+        for (int i = n - 2; i >= 0; i--) {
+            suff[i] = suff[i + 1] + nums[i];
+        }
+
+        long long ans = LLONG_MAX;
+        bool found = false;
+
+        for (int i = 0; i < n - 1; i++) {
+            if (Inc[i] && Dec[i + 1]) {
+                found = true;
+
+                long long lsum = pre[i];
+                long long rsum = suff[i + 1];
+
+                ans = min(ans, llabs(lsum - rsum));
+            }
+        }
+
+        return found ? ans : -1;
+    }
+};
