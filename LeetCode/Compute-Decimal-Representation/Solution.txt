@@ -1,0 +1,23 @@
+class Solution {
+public:
+    vector<int> decimalRepresentation(int n) {
+
+        vector<int> res;
+        string str = to_string(n);
+
+        int m = str.size();
+        int p = m;
+
+        for (int i = 0; i < m; i++) {
+
+            p--;
+            if (str[i] == '0')
+                continue;
+
+            int num = (str[i] - '0') * pow(10, p);
+            res.push_back(num);
+        }
+
+        return res;
+    }
+};
