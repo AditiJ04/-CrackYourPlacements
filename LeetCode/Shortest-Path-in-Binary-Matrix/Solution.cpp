@@ -1,70 +1,47 @@
 class Solution {
 public:
-   
-   typedef pair<int,pair<int,int>>P;
-   vector<vector<int>>dirs={{0,-1},{-1,-1},{-1,0},{-1,1},{0,1},{1,1},{1,0},{1,-1}};
+    int n;
+
+    int row[8]={0,-1,0,1,-1,-1,1,1};
+    int col[8]={-1,0,1,0,-1,1,1,-1};
     int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
-        int n=grid.size();
-        int m=grid[0].size();
-        if(m==0 || n==0 || grid[0][0]==1)
-        {
+        n = grid.size();
+
+        if (grid[0][0] == 1 || grid[n-1][n-1]==1)
             return -1;
-        }
+        vector<vector<int>> dist(n, vector<int>(n, INT_MAX));
+        priority_queue<pair<int, pair<int, int>>,
+                       vector<pair<int, pair<int, int>>>,
+                       greater<pair<int, pair<int, int>>>> pq;
 
-       // int row[]={0,-1,-1,-1,0,1,1,1};
-        //int col[]={-1,-1,0,1,1,1,0,-1};
+        
+        dist[0][0]=1;
 
-        auto issafe=[&](int x,int y)
+        pq.push({1,{0,0}});
+
+        while(!pq.empty())
         {
-            if(x>=0 && x<n && y>=0 && y<m)
+            int dis=pq.top().first;
+            int r=pq.top().second.first;
+            int c=pq.top().second.second;
+            pq.pop();
+
+            if(r==n-1 && c==n-1) return dis;
+            for(int k=0;k<8;k++)
             {
-                return true;
+                int i=r+row[k];
+                int j=c+col[k];
+
+                if(i<0 || j<0 || i>=n || j>=n || grid[i][j]) continue;
+
+                if(dis+1<dist[i][j])
+                {
+                    dist[i][j]=dis+1;
+                    pq.push({dist[i][j],{i,j}});
+                }
             }
-
-            return false;
-        };
-       
-
-       vector<vector<int>>result(n,vector<int>(m,INT_MAX));
-
-       priority_queue<P,vector<P>,greater<P>>pq;
-
-       pq.push({0,{0,0}});
-       result[0][0]=0;
-
-       while(!pq.empty())
-       {
-        int d=pq.top().first;
-        pair<int,int>node=pq.top().second;
-        int x=node.first;
-        int y=node.second;
-
-        pq.pop();
-
-        for(auto dir:dirs)
-        {
-            int x_=x+dir[0];
-            int y_=y+dir[1];
-
-            int dist=1;
-
-            if(issafe(x_,y_) && grid[x_][y_]==0 && d+dist<result[x_][y_])
-            {
-                pq.push({d+dist,{x_,y_}});
-                result[x_][y_]=d+dist;
-            }
-
-        }
-       }
-        if(result[n-1][m-1]==INT_MAX)
-        {
-            return -1;
         }
 
-        return result[n-1][m-1]+1;
-
-
-       
-
+        return -1;
     }
 };
