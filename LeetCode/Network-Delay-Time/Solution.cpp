@@ -1,20 +1,22 @@
 class Solution {
 public:
     int networkDelayTime(vector<vector<int>>& times, int n, int k) {
-        int m=times.size();
 
-        vector<vector<pair<int,int>>>adj(n+1);
+        unordered_map<int,vector<pair<int,int>>>adj;
 
-        for(int i=0;i<m;i++)
+        for(auto &vec:times)
         {
-            adj[times[i][0]].push_back({times[i][1],times[i][2]});
+            int u=vec[0];
+            int v=vec[1];
+            int w=vec[2];
+
+            adj[u].push_back({v,w});
         }
+        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>pq;
 
-        vector<int>dist(n+1,INT_MAX);
 
-        dist[k]=0;
-
-        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<>>pq;
+        vector<int>res(n+1,INT_MAX);
+        res[k]=0;
 
         pq.push({0,k});
 
@@ -22,28 +24,31 @@ public:
         {
             int dis=pq.top().first;
             int node=pq.top().second;
+
             pq.pop();
 
-            if(dis>dist[node]) continue;
-
-            for(auto it:adj[node])
+            for(auto &vec:adj[node])
             {
-                if(dis+it.second<dist[it.first])
+                int adjnode=vec.first;
+                int d=vec.second;
+
+                if(dis+d<res[adjnode])
                 {
-                    dist[it.first]=dis+it.second;
-                    pq.push({dis+it.second,it.first});
+                    res[adjnode]=d+dis;
+                    pq.push({d+dis,adjnode});
                 }
             }
         }
 
-        int mx=INT_MIN;
+        int ans=INT_MIN;
 
         for(int i=1;i<=n;i++)
         {
-            if(dist[i]==INT_MAX) return -1;
-            mx=max(mx,dist[i]);
+            ans=max(ans,res[i]);
         }
 
-        return mx;
+        return ans==INT_MAX?-1:ans;
+
+
     }
 };
