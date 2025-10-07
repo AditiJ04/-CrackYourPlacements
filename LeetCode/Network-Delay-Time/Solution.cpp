@@ -1,54 +1,54 @@
 class Solution {
 public:
     int networkDelayTime(vector<vector<int>>& times, int n, int k) {
+        vector<vector<pair<int,int>>>adj(n+1);
 
-        unordered_map<int,vector<pair<int,int>>>adj;
+        int m=times.size();
 
-        for(auto &vec:times)
+        for(int i=0;i<m;i++)
         {
-            int u=vec[0];
-            int v=vec[1];
-            int w=vec[2];
-
-            adj[u].push_back({v,w});
+            adj[times[i][0]].push_back({times[i][2],times[i][1]});
         }
-        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>pq;
 
+        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>que;
 
-        vector<int>res(n+1,INT_MAX);
-        res[k]=0;
+        que.push({0,k});
 
-        pq.push({0,k});
+        vector<int>dist(n+1,INT_MAX);
 
-        while(!pq.empty())
+        dist[0]=0;
+        dist[k]=0;
+
+        while(!que.empty())
         {
-            int dis=pq.top().first;
-            int node=pq.top().second;
+            auto ele=que.top();
+            int dis=ele.first;
+            int node=ele.second;
 
-            pq.pop();
-
-            for(auto &vec:adj[node])
+            que.pop();
+            for(auto it:adj[node])
             {
-                int adjnode=vec.first;
-                int d=vec.second;
+                int d=it.first;
+                int v=it.second;
 
-                if(dis+d<res[adjnode])
+                if(dis+d<dist[v])
                 {
-                    res[adjnode]=d+dis;
-                    pq.push({d+dis,adjnode});
+                    dist[v]=dis+d;
+                    que.push({dis+d,v});
                 }
             }
         }
 
-        int ans=INT_MIN;
-
+        int mx=INT_MIN;
         for(int i=1;i<=n;i++)
         {
-            ans=max(ans,res[i]);
+            if(dist[i]==INT_MAX)
+            {
+                return -1;
+            }
+            mx=max(mx,dist[i]);
         }
 
-        return ans==INT_MAX?-1:ans;
-
-
+        return mx;
     }
 };
