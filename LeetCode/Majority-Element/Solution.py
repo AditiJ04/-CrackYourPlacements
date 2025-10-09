@@ -6,7 +6,7 @@ class Solution:
         for i in range(0,n):
             mp[nums[i]]+=1
 
-        for number, count in mp.items():
-            if count> n//2:
-                return number
+        for num, cnt in mp.items():
+            if cnt> n//2:
+                return num
         return -1
