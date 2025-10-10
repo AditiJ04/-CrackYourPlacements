@@ -1,74 +1,34 @@
 class Solution {
 public:
-    vector<int>parent;
-    vector<int>rank;
-
-    int findPar(int node)
+    
+    void dfs(vector<vector<int>>&stones,int idx,vector<bool>&vis)
     {
-        if(node==parent[node])
+        vis[idx]=true;
+        for(int k=0;k<stones.size();k++)
         {
-            return node;
-        }
-
-        return parent[node]=findPar(parent[node]);
-    }
-
-    void unionByRank(int u,int v)
-    {
-        int ulp_u=findPar(u);
-        int ulp_v=findPar(v);
-
-        if(ulp_u==ulp_v)
-        {
-            return;
-        }
-
-        if(rank[ulp_u]<rank[ulp_v])
-        {
-            parent[ulp_u]=ulp_v;
-            rank[ulp_v]++;
-        }
-        else if(rank[ulp_u]>rank[ulp_v])
-        {
-            parent[ulp_v]=ulp_u;
-            rank[ulp_u]++;
-        }
-        else
-        {
-            parent[ulp_u]=ulp_v;
-            rank[ulp_v]++;
+            int r=stones[idx][0];
+            int c=stones[idx][1];
+            if((vis[k]==false) && (stones[k][0]==r || stones[k][1]==c))
+            {
+                dfs(stones,k,vis);
+            }
         }
     }
     int removeStones(vector<vector<int>>& stones) {
         int n=stones.size();
-
-        parent.resize(n);
-        rank.resize(n,0);
-
-        for(int i=0;i<n;i++)
-        {
-            parent[i]=i;
-        }
-
         int grps=0;
 
-        for(int i=0;i<n;i++)
-        {
-            for(int j=0;j<n;j++)
-            {
-                if(stones[i][0]==stones[j][0] || stones[i][1]==stones[j][1])
-                {
-                    unionByRank(i,j);
-                }
-            }
-        }
+        vector<bool>vis(n,false);
 
         for(int i=0;i<n;i++)
         {
-            if(i==parent[i])
+            if(vis[i]==true)
             {
-                grps++;
+                continue;
             }
+
+            dfs(stones,i,vis);
+            grps++;
         }
 
         return n-grps;
