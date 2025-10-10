@@ -1,73 +1,50 @@
-class Disjoint{
-    vector<int>parent,size;
+class Disjoint:
+    parent=[]
+    size=[]
 
-    public:
+    def __init__(self,n):
+        self.parent=[i for i in range(n)]
+        self.size=[1]*n
 
-    Disjoint(int n)
-    {
-        parent.resize(n);
-        size.resize(n);
+    
+    def findUParent(self,node):
+        if node==self.parent[node]:
+            return node
 
-        for(int i=0;i<n;i++)
-        {
-            parent[i]=i;
-            size[i]=1;
-        }
-    }
+        self.parent[node]=self.findUParent(self.parent[node])
+        return self.parent[node]
 
-    int findUParent(int node)
-    {
-        if(node==parent[node])
-        {
-            return node;
-        }
-        return parent[node]=findUParent(parent[node]);
-    }
+    def unionBySize(self,u,v):
+        ulp_u=self.findUParent(u)
+        ulp_v=self.findUParent(v)
 
-    void unionBySize(int u,int v)
-    {
-        int ulp_u=findUParent(u);
-        int ulp_v=findUParent(v);
+        if ulp_u==ulp_v:
+            return
 
-        if(size[ulp_u]<size[ulp_v])
-        {
-            size[ulp_v]+=size[ulp_u];
-            parent[ulp_u]=ulp_v;
-        }
-        else
-        {
-            size[ulp_u]+=size[ulp_v];
-            parent[ulp_v]=ulp_u;
-        }
-    }
-};
+        if self.size[ulp_u]<self.size[ulp_u]:
+            self.size[ulp_v]+=self.size[ulp_u]
+            self.parent[ulp_u]=ulp_v
 
-class Solution {
-public:
-    int removeStones(vector<vector<int>>& stones) {
-        int n=stones.size();
+        else:
+            self.size[ulp_u]+=self.size[ulp_v]
+            self.parent[ulp_v]=ulp_u
 
-        Disjoint ds(n);
-        int cnt=0;
+
+class Solution:
+    def removeStones(self, stones: List[List[int]]) -> int:
+        n=len(stones)
+        ds=Disjoint(n)
+
+        cnt=0
+
+        for i in range(0,n):
+            for j in range(i+1,n):
+                if stones[i][0]==stones[j][0] or stones[i][1]==stones[j][1]:
+                    u=ds.findUParent(i)
+                    v=ds.findUParent(j)
+
+                    if u!=v:
+                        ds.unionBySize(u,v)
+                        cnt+=1
         
-        for(int i=0;i<n;i++)
-        {
-            for(int j=i+1;j<n;j++)
-            {
-                if(stones[i][0]==stones[j][0] || stones[i][1]==stones[j][1])
-                {
-                    int u=ds.findUParent(i);
-                    int v=ds.findUParent(j);
-
-                    if(u!=v)
-                    {
-                        ds.unionBySize(u,v);
-                        cnt++;
-                    }
-                }
-            }
-        }
-
-        return cnt;
-    }
-};
+        return cnt
