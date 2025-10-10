@@ -1,73 +1,76 @@
-class Disjoint{
-    vector<int>parent,size;
+class Solution {
+public:
+    vector<int>parent;
+    vector<int>rank;
 
-    public:
-
-    Disjoint(int n)
-    {
-        parent.resize(n);
-        size.resize(n);
-
-        for(int i=0;i<n;i++)
-        {
-            parent[i]=i;
-            size[i]=1;
-        }
-    }
-
-    int findUParent(int node)
+    int findPar(int node)
     {
         if(node==parent[node])
         {
             return node;
         }
-        return parent[node]=findUParent(parent[node]);
+
+        return parent[node]=findPar(parent[node]);
     }
 
-    void unionBySize(int u,int v)
+    void unionByRank(int u,int v)
     {
-        int ulp_u=findUParent(u);
-        int ulp_v=findUParent(v);
+        int ulp_u=findPar(u);
+        int ulp_v=findPar(v);
 
-        if(size[ulp_u]<size[ulp_v])
+        if(ulp_u==ulp_v)
         {
-            size[ulp_v]+=size[ulp_u];
+            return;
+        }
+
+        if(rank[ulp_u]<rank[ulp_v])
+        {
             parent[ulp_u]=ulp_v;
+            rank[ulp_v]++;
+        }
+        else if(rank[ulp_u]>rank[ulp_v])
+        {
+            parent[ulp_v]=ulp_u;
+            rank[ulp_u]++;
         }
         else
         {
-            size[ulp_u]+=size[ulp_v];
-            parent[ulp_v]=ulp_u;
+            parent[ulp_u]=ulp_v;
+            rank[ulp_v]++;
         }
     }
-};
-
-class Solution {
-public:
     int removeStones(vector<vector<int>>& stones) {
         int n=stones.size();
 
-        Disjoint ds(n);
-        int cnt=0;
-        
+        parent.resize(n);
+        rank.resize(n,0);
+
         for(int i=0;i<n;i++)
         {
-            for(int j=i+1;j<n;j++)
+            parent[i]=i;
+        }
+
+        int grps=0;
+
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<n;j++)
             {
                 if(stones[i][0]==stones[j][0] || stones[i][1]==stones[j][1])
                 {
-                    int u=ds.findUParent(i);
-                    int v=ds.findUParent(j);
-
-                    if(u!=v)
-                    {
-                        ds.unionBySize(u,v);
-                        cnt++;
-                    }
+                    unionByRank(i,j);
                 }
             }
         }
 
-        return cnt;
+        for(int i=0;i<n;i++)
+        {
+            if(i==parent[i])
+            {
+                grps++;
+            }
+        }
+
+        return n-grps;
     }
 };
