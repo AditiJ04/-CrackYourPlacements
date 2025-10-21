@@ -1,0 +1,52 @@
+class Solution {
+public:
+    int n, mx = 0;
+
+    int eval(string str) {
+        int num = 0;
+
+        for (char c : str) {
+            num = num * 2 + (c - '0');
+        }
+
+        return num;
+    }
+    string numToBin(int num) {
+        string ans = "";
+        while (num != 0) {
+            ans += (num % 2) + '0';
+            num /= 2;
+        }
+
+        reverse(ans.begin(), ans.end());
+
+        return ans;
+    }
+    int maxGoodNumber(vector<int>& nums) {
+        string sA = numToBin(nums[0]);
+        string sB = numToBin(nums[1]);
+        string sC = numToBin(nums[2]);
+
+        string s1 = sA + sB + sC;
+        string s2 = sA + sC + sB;
+        string s3 = sB + sA + sC;
+        string s4 = sB + sC + sA;
+        string s5 = sC + sA + sB;
+        string s6 = sC + sB + sA;
+
+        mx = max(mx, eval(s1));
+        mx = max(mx, eval(s2));
+        mx = max(mx, eval(s3));
+        mx = max(mx, eval(s4));
+        mx = max(mx, eval(s5));
+        mx = max(mx, eval(s6));
+
+        return mx;
+    }
+};
+
+// number representation in binary
+// string concatenation
+// string evaluation
+
+// (abc),(bac),(cab),(acb),(bca),((cba))
