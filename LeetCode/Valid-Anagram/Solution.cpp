@@ -4,31 +4,20 @@ public:
         int n=s.size();
         int m=t.size();
 
-        if(n>m)
-        {
-            return false;
-        }
+        if(n!=m) return false;
 
-        unordered_map<char,int>mp;
+        vector<int>v(26,0);
 
         for(int i=0;i<n;i++)
         {
-            mp[s[i]]++;
+            v[s[i]-'a']++;
         }
 
-        for(auto c:t)
+        for(int i=0;i<m;i++)
         {
-            if(mp.find(c)==mp.end())
-            {
-                return false;
-            }
-            mp[c]--;
-            if(mp[c]==0)
-            {
-                mp.erase(c);
-            }
+            v[t[i]-'a']--;
         }
 
-        return true;
+        return v==vector<int>(26,0);
     }
 };
