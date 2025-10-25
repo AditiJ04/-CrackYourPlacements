@@ -4,20 +4,22 @@ public:
         int n=s.size();
         int m=t.size();
 
-        if(n!=m) return false;
+        int freq[26]={0};
 
-        vector<int>v(26,0);
-
-        for(int i=0;i<n;i++)
+        for(char c:s)
         {
-            v[s[i]-'a']++;
+            freq[c-'a']++;
+        }
+        for(char c:t)
+        {
+            freq[c-'a']--;
         }
 
-        for(int i=0;i<m;i++)
+        for(int i=0;i<26;i++)
         {
-            v[t[i]-'a']--;
+            if(freq[i]!=0) return false;
         }
 
-        return v==vector<int>(26,0);
+        return true;
     }
 };
