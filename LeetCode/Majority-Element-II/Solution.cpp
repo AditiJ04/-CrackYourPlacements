@@ -1,31 +1,26 @@
 class Solution {
 public:
     vector<int> majorityElement(vector<int>& nums) {
-        vector<int> ans;
-        sort(nums.begin(), nums.end());
-        int n = nums.size();
-        int thr = n / 3;
+        vector<int>element;
 
-        int cnt = 0;
-        int candidate = 0;
+        map<int,int>mp;
 
-        for (int i = 0; i < n; i++) {
-            if (cnt == 0) {
-                candidate = nums[i];
-                cnt = 1;
-            } else if (nums[i] == candidate) {
-                cnt++;
-            } else {
-                if (cnt > thr)
-                    ans.push_back(candidate);
-                candidate = nums[i];
-                cnt = 1;
+        int n=nums.size();
+
+        int k=floor(n/3);
+
+        for(int i=0;i<n;i++)
+        {
+            mp[nums[i]]++;
+        }
+        
+        for(auto c:mp)
+        {
+            if(c.second>k)
+            {
+                element.push_back(c.first);
             }
         }
-
-        if (cnt > thr)
-            ans.push_back(candidate);
-
-        return ans;
+        return element;
     }
 };
