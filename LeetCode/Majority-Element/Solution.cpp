@@ -3,7 +3,8 @@ public:
     int majorityElement(vector<int>& nums) {
         int n=nums.size();
 
-        int i,candidate=-1,votes=0;
+        int votes=0;
+        int candidate=-1;
 
         for(int i=0;i<n;i++)
         {
@@ -14,8 +15,14 @@ public:
             }
             else
             {
-                if(nums[i]==candidate) votes++;
-                else votes--;
+                if(nums[i]==candidate)
+                {
+                    votes++;
+                }
+                else
+                {
+                    votes--;
+                }
             }
         }
 
@@ -26,8 +33,14 @@ public:
             if(nums[i]==candidate) cnt++;
         }
 
-        if(cnt>ceil(n/2)) return candidate;
+        if(cnt>ceil(n/2))
+        {
+            return candidate;
+        }
 
         return -1;
     }
 };
+
+// 1 1 2 3 4 5
+//    
