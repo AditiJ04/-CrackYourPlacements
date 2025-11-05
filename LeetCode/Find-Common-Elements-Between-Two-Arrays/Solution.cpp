@@ -4,37 +4,36 @@ public:
         map<int,int>mp1;
         map<int,int>mp2;
 
-        int cnt1=0;
-        int cnt2=0;
-
-        vector<int>v(2,0);
-
+        vector<int>ans(2,0);
         for(int i=0;i<nums1.size();i++)
         {
             mp1[nums1[i]]++;
         }
 
-        for(int i=0;i<nums2.size();i++)
+          for(int i=0;i<nums2.size();i++)
         {
             mp2[nums2[i]]++;
         }
-
-        for(int i=0;i<nums2.size();i++)
+        for(int j=0;j<nums2.size();j++)
         {
-            if(mp1[nums2[i]]>=1)
+            if(mp1[nums2[j]]>0)
             {
-                v[1]++;
+                ans[1]++;
             }
         }
-
-        for(int i=0;i<nums1.size();i++)
+        //ans.push_back(c1);
+          for(int j=0;j<nums1.size();j++)
         {
-            if(mp2[nums1[i]]>=1)
-            {
-                v[0]++;
-            }
+            
+                if(mp2[nums1[j]]>0)
+                {
+                ans[0]++;
+                }
+            
         }
-       
-        return v;
+     //  sort(ans.begin(),ans.end());
+        return ans;
+        
+      //  vector<int>ans;
     }
 };
