@@ -8,27 +8,18 @@ public:
         n--;
 
         while (n != 0) {
-            stack<char> st;
 
             string ans = "";
-            for (int i = 0; i < str.size(); i++) {
-                if (st.empty() || st.top() == str[i]) {
-                    st.push(str[i]);
-                } else if (st.top() != str[i]) {
-                    ans += to_string(st.size());
-                    ans += st.top();
-
-                    while (!st.empty())
-                        st.pop();
-
-                    st.push(str[i]);
+            int si = 0;
+            for (int i = 1; i < str.size(); i++) {
+                if (str[i - 1] != str[i]) {
+                    ans += to_string(i - si);
+                    ans += str[i - 1] ;
+                    si = i;
                 }
             }
-            if (!st.empty()) {
-                ans += to_string(st.size());
-                ans += st.top();
-            }
-
+            ans += to_string(str.size()-si);
+            ans += str.back();
             str = ans;
             n--;
         }
