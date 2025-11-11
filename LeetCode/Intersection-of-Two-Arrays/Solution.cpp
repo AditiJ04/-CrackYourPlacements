@@ -1,29 +1,29 @@
 class Solution {
 public:
     vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
-        int n=nums1.size();
-        int m=nums2.size();
+        map<int,int>mp1;
+        map<int,int>mp2;
 
-        unordered_map<int,int>mp;
-        vector<int>ans;
+        vector<int>v;
 
-        for(int i=0;i<n;i++)
+        for(int i=0;i<nums1.size();i++)
         {
-            if(mp.find(nums1[i])==mp.end())
+            mp1[nums1[i]]++;
+        }
+
+        for(int i=0;i<nums2.size();i++)
+        {
+            mp2[nums2[i]]++;
+        }
+        for(auto c:mp1)
+        {
+            int k=c.first;
+            if(mp2.find(k)!=mp2.end())
             {
-                mp[nums1[i]]++;
+                v.push_back(k);
             }
         }
 
-        for(int i=0;i<m;i++)
-        {
-            if(mp.find(nums2[i])!=mp.end())
-            {
-                ans.push_back(nums2[i]);
-                mp.erase(nums2[i]);
-            }
-        }
-
-        return ans;
+        return v;
     }
 };
