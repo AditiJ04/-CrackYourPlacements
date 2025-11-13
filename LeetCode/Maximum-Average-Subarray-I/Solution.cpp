@@ -1,13 +1,24 @@
-    lst =  [ ] #list that stores all the maximums
-    maxim = 0
-    idx = -1
-    for i in nums[0:len(nums)-k+1:]:
-        idx += 1
+class Solution {
+public:
+    double findMaxAverage(vector<int>& nums, int k) {
+        int n=nums.size();
+        int i=0,j=0;
 
-        for j in nums[idx:idx+k:]:
-            maxim += j
-        lst.append(maxim/k)
-        maxim = 0
+        double sum=0;
+        double mx=-DBL_MAX;
 
-    lst.sort()
-    return lst[-1]
+        while(j<n)
+        {
+            sum+=nums[j];
+            if(j-i+1==k)
+            {
+                mx=max(mx,sum/k);
+                sum-=nums[i];
+                i++;
+            }
+            j++;
+        }
+
+        return mx;
+    }
+};
