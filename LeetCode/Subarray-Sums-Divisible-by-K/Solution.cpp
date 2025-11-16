@@ -12,7 +12,7 @@ public:
         {
             sum+=nums[i];
 
-            int r=(sum%k+k)%k;
+            int r=(sum%k+k)%k;// to handle negative remainers
 
             if(mp.find(r)!=mp.end())
             {
