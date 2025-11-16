@@ -1,20 +1,15 @@
 class Solution {
 public:
-    int dp[46];
-    
-    int totalStairs(int n)
-    {
-        if(n<=1) return 1;
+    int ways(int n, vector<int>& dp) {
+        if (n == 1 || n == 2)
+            return n;
+
         if(dp[n]!=-1) return dp[n];
 
-        return dp[n]=totalStairs(n-1)+totalStairs(n-2);
+        return dp[n] = ways(n - 1,dp) + ways(n - 2,dp);
     }
     int climbStairs(int n) {
-        if(n<=1) return 1;
-
-        memset(dp,-1,sizeof(dp));
-
-        return totalStairs(n);
-    
+        vector<int> dp(n+1, -1);
+        return ways(n, dp);
     }
 };
