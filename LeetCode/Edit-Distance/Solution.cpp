@@ -5,15 +5,13 @@ public:
         int m=word2.size();
 
         vector<vector<int>>dp(n+1,vector<int>(m+1,0));
-
         for(int i=0;i<n;i++)
         {
             dp[i][m]=n-i;
         }
-
-        for(int i=0;i<m;i++)
+        for(int j=0;j<m;j++)
         {
-            dp[n][i]=m-i;
+            dp[n][j]=m-j;
         }
 
         for(int i=n-1;i>=0;i--)
@@ -26,7 +24,11 @@ public:
                 }
                 else
                 {
-                    dp[i][j]=1+min({dp[i+1][j],dp[i][j+1],dp[i+1][j+1]});
+                    int c1=dp[i+1][j];
+                    int c2=dp[i][j+1];
+                    int c3=dp[i+1][j+1];
+
+                    dp[i][j]=1+min({c1,c2,c3});
                 }
             }
         }
