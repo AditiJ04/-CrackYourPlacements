@@ -2,35 +2,29 @@ class Solution {
 public:
     int countPalindromicSubsequence(string s) {
         int n=s.size();
+        int res=0;
 
-        unordered_set<char>letters;
+        vector<pair<int,int>>v(26,{-1,-1});
 
         for(int i=0;i<n;i++)
         {
-            letters.insert(s[i]);
+            char ch=s[i];
+
+            int idx=ch-'a';
+
+            if(v[idx].first==-1)
+            {
+                v[idx].first=i;
+            }
+            v[idx].second=i;
         }
 
-        int res=0;
-
-        for(char l:letters)
+        for(int i=0;i<26;i++)
         {
-            int f_idx=-1;
-            int l_idx=-1;
+            int f_idx=v[i].first;
+            int l_idx=v[i].second;
 
-            for(int i=0;i<n;i++)
-            {
-                if(s[i]==l)
-                {
-                    if(f_idx==-1)
-                    {
-                        f_idx=i;
-                    }
-                    else
-                    {
-                        l_idx=i;
-                    }
-                }
-            }
+            if(f_idx==-1 && l_idx==-1) continue;
 
             unordered_set<char>st;
             for(int j=f_idx+1;j<=l_idx-1;j++)
