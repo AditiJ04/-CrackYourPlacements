@@ -2,28 +2,29 @@
 2public:
 3    int maxScore(vector<int>& cardPoints, int k) {
 4        int n=cardPoints.size();
-5        int wl=n-k;
+5
 6        int tsum=accumulate(cardPoints.begin(),cardPoints.end(),0);
-7
-8        if(n==k) return tsum;
-9
-10        int ans=0;
-11
-12        int i=0,j=0;
-13        int sum=0;
-14
-15        while(j<n)
-16        {
-17            sum+=cardPoints[j];
-18            if(j-i+1==wl)
-19            {
-20                ans=max(ans,tsum-sum);
-21                sum-=cardPoints[i];
-22                i++;
-23            }
-24            j++;
-25        }
-26
-27        return ans;
-28    }
-29};
+7        int mx=INT_MIN;
+8        int l=n-k;
+9        if(n==k) return tsum;
+10        int i=0,j=0;
+11        int sum=0;
+12
+13        while(i<n)
+14        {
+15            sum+=cardPoints[i];
+16
+17            if(i-j+1==l)
+18            {
+19                mx=max(mx,tsum-sum);
+20                while(i-j+1==l)
+21                {
+22                    sum-=cardPoints[j];
+23                    j++;
+24                }
+25            }
+26            i++;
+27        }
+28        return mx;
+29    }
+30};
