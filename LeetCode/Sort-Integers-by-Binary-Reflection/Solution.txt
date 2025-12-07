@@ -1,45 +1,12 @@
 1class Solution {
 2public:
-3    string Bin(int num) {
-4        string ans = "";
-5
-6        while (num != 0) {
-7            int r = num % 2;
-8            num /= 2;
-9            ans = char(r + '0') + ans;
-10        }
-11        return ans;
-12    }
-13    long long Dec(string& bin) {
-14        long long val = 0;
-15        for (char c : bin) {
-16            val = val * 2 + (c - '0');
-17        }
-18        return val;
-19    }
-20
-21    vector<int> sortByReflection(vector<int>& nums) {
-22        vector<pair<long long, long long>> v;
-23
-24        for (int x : nums) {
-25            string bin = Bin(x);
-26            reverse(bin.begin(), bin.end());
-27            long long reflectVal = Dec(bin);
-28            v.push_back({reflectVal, x});
-29        }
-30
-31        sort(v.begin(), v.end());
-32
-33        vector<int> res;
-34        for (auto& p : v)
-35            res.push_back(p.second);
-36
-37        return res;
-38    }
-39};
-40
-41// 3--011 11
-42// 6--110 011
-43// 5--101 101
-44// 8--1000 0001
-45
+3    int bin(int n) { 
+4        int r = 0;
+5        while (n > 0) { r = (r << 1) | (n & 1);  n >>= 1; } 
+6        return r;
+7    }
+8    vector<int> sortByReflection(vector<int>& nums) {
+9        sort(nums.begin(),nums.end(),[&](int a, int b) { int refa = bin(a); int refb = bin(b); if (refa!=refb) return refa<refb; return a<b;});
+10        return nums;
+11    }
+12};
