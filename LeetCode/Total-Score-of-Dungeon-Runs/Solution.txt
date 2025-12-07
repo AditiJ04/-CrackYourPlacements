@@ -1,0 +1,40 @@
+1class Solution {
+2public:
+3    long long totalScore(int hp, vector<int>& damage,
+4                         vector<int>& requirement) {
+5        int n = damage.size();
+6        int h = hp;
+7        vector<long long> v(n, 0);
+8
+9        for (int i = 0; i < n; i++) {
+10            v[i] = (long long)damage[i] + requirement[i];
+11        }
+12        vector<long long> P(n + 1, 0);
+13
+14        for (int i = 1; i <= n; i++) {
+15            P[i] = P[i - 1] + (long long)damage[i - 1];
+16        }
+17
+18        long long res = 0;
+19        int k = 0;
+20
+21        for (int i = 1; i <= n; i++) {
+22            long long p = P[i] + (long long)requirement[i - 1] - h;
+23
+24            if (p <= 0) {
+25                res += i;
+26            } else if (p > P[i - 1]) {
+27                continue;
+28            } else {
+29                auto it = lower_bound(P.begin(), P.begin() + i, p);
+30                int t = (int)(it - P.begin());
+31                int c = i - t;
+32                res += c;
+33            }
+34        }
+35
+36        return res;
+37
+38        return res;
+39    }
+40};
