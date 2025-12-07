@@ -1,0 +1,23 @@
+1class Solution {
+2public:
+3    long long maxPoints(vector<int>& technique1, vector<int>& technique2, int k) {
+4        int n=technique1.size();
+5        long long total=0;
+6        int done_k = 0;
+7        vector<int> diff;
+8        for (int i=0; i<n; i++){
+9            if (technique1[i]-technique2[i]>=0){
+10                total += (long long)technique1[i];
+11                done_k++;
+12            }
+13            else{
+14                total += (long long)technique2[i];
+15                diff.push_back(technique1[i]-technique2[i]);
+16            }
+17        }
+18        if (done_k>=k) return total;
+19        sort(diff.rbegin(),diff.rend());
+20        for (int i=0; i<k-done_k; ++i) total += diff[i];
+21        return total;
+22    }
+23};
