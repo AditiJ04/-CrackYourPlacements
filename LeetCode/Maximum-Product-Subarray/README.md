@@ -4,6 +4,8 @@ Can you solve this real interview question? Maximum Product Subarray - Given an 
 
 The test cases are generated so that the answer will fit in a 32-bit integer.
 
+Note that the product of an array with a single element is the value of that element.
+
  
 
 Example 1:
