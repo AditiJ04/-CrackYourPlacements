@@ -1,0 +1,40 @@
+1class Solution {
+2public:
+3    int minOperations(vector<int>& nums) {
+4        int n = nums.size();
+5
+6        unordered_map<int, int> mp;
+7        int flg = 0;
+8        int op=1;
+9
+10        for (int i = 0; i < n; i++) {
+11
+12            if(mp.find(nums[i])!=mp.end())
+13            {
+14                flg++;
+15            }
+16            mp[nums[i]]++;
+17        }
+18        if(flg==0) return 0;
+19
+20        int cnt=0;
+21
+22        for(int i=0;i<n;i++)
+23        {
+24            if(mp[nums[i]]>1)
+25            {
+26                mp[nums[i]]--;
+27                flg--;
+28            }
+29            cnt++;
+30            if(flg==0) return op;
+31            if(cnt==3)
+32            {
+33                op++;
+34                cnt=0;
+35            }
+36        }
+37
+38        return op;
+39    }
+40};
