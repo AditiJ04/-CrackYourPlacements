@@ -1,0 +1,20 @@
+1class Solution {
+2public:
+3    long long countPairs(vector<string>& words) {
+4        unordered_map<string, long long> mp;
+5        long long ans = 0;
+6
+7        for (string& w : words) {
+8            int shift = w[0] - 'a';
+9            string key = w;
+10
+11            for (int i = 0; i < w.size(); i++) {
+12                key[i] = (w[i] - 'a' - shift + 26) % 26 + 'a';
+13            }
+14
+15            ans += mp[key]; // count previous occurrences
+16            mp[key]++;
+17        }
+18        return ans;
+19    }
+20};
