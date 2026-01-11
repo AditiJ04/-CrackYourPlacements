@@ -1,0 +1,23 @@
+1class Solution {
+2public:
+3    int centeredSubarrays(vector<int>& nums) {
+4        int n = nums.size();
+5        int ans=0;
+6        
+7        for (int i = 0; i < n; i++) {
+8            unordered_map<int, int> mp;
+9            int sum=nums[i];
+10            mp[nums[i]]++;
+11            ans++;
+12            
+13            for (int j = i+1; j < n; j++) {
+14                mp[nums[j]]++;
+15                sum+=nums[j];
+16
+17                if(mp.find(sum)!=mp.end()) ans++;
+18            }
+19        }
+20
+21        return ans;
+22    }
+23};
