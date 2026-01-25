@@ -1,0 +1,26 @@
+1class Solution {
+2public:
+3    int vowelConsonantScore(string s) {
+4        int n=s.size();
+5        int c=0,v=0;
+6        int ans=0;
+7        for(int i=0;i<n;i++)
+8            {
+9                if(s[i]=='a' || s[i]=='e' || s[i]=='i' || s[i]=='o' || s[i]=='u')
+10                {
+11                    v++;
+12                }
+13                else if(!isdigit(s[i]) && s[i]!=' ')
+14                {
+15                    c++;
+16                }
+17            }
+18
+19        if(c>0)
+20        {
+21            ans=floor(v/c);
+22        }
+23
+24        return ans;
+25    }
+26};
