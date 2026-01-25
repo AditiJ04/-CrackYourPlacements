@@ -1,0 +1,37 @@
+1class Solution {
+2public:
+3    vector<int> rotateElements(vector<int>& nums, int k) {
+4        int n = nums.size();
+5
+6        vector<int> v;
+7        for (int i = 0; i < n; i++) {
+8            if (nums[i] >= 0) {
+9                v.push_back(nums[i]);
+10            }
+11        }
+12
+13        if(v.empty()) return nums;
+14        int m=v.size();
+15
+16        k=k%m;
+17        vector<int> res(m);
+18
+19        for (int i = 0; i < m; i++) {
+20            int idx = (i - k + m) % m;
+21            res[idx] = v[i];
+22        }
+23
+24        int i = 0, j = 0;
+25
+26        while (j < m && i < n) {
+27            if (nums[i] >= 0) {
+28                nums[i] = res[j];
+29                j++;
+30            }
+31            i++;
+32        }
+33
+34        return nums;
+35    }
+36};
+37
