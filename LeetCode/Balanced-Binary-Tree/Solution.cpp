@@ -11,26 +11,34 @@
 11 */
 12class Solution {
 13public:
-14    int height(TreeNode* root)
-15    {
-16        if(root==NULL) return 0;
-17
-18        int lh=height(root->left);
-19        int rh=height(root->right);
+14
+15    int findHeight(TreeNode* root)
+16    {
+17        if(root==NULL) return 0;
+18        int lh=findHeight(root->left);
+19        int rh=findHeight(root->right);
 20
 21        return 1+max(lh,rh);
 22    }
 23    bool isBalanced(TreeNode* root) {
 24        if(root==NULL) return true;
-25
-26        bool l,h;
-27        l=isBalanced(root->left);
-28        h=isBalanced(root->right);
+25        if(root->left==NULL && root->right==NULL) return true;
+26
+27        int lh=0,rh=0;
+28        bool l=false,r=false;
 29
-30        bool ans=abs(height(root->left)-height(root->right))<=1;
-31
-32        if(l && h && ans) return true;
-33
-34        return false;
-35    }
-36};
+30        l=isBalanced(root->left);
+31        r=isBalanced(root->right);
+32        if(root->left)
+33        {
+34            lh=findHeight(root->left);
+35        }
+36        if(root->right)
+37        {
+38            rh=findHeight(root->right);
+39        }
+40
+41        if(abs(lh-rh)<=1 && l && r) return true;
+42        return false;
+43    }
+44};
