@@ -1,0 +1,19 @@
+1class Solution {
+2public:
+3    int canBeTypedWords(string text, string brokenLetters) {
+4        int count = 0;
+5        istringstream iss(text);
+6        string word;
+7        while (iss >> word) {
+8            bool canType = true;
+9            for (char c : brokenLetters) {
+10                if (word.find(c) != string::npos) {
+11                    canType = false;
+12                    break;
+13                }
+14            }
+15            if (canType) count++;
+16        }
+17        return count;
+18    }
+19};
