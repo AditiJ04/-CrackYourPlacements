@@ -1,0 +1,29 @@
+1class Solution {
+2public:
+3    int firstUniqueFreq(vector<int>& nums) {
+4        int n = nums.size();
+5
+6        unordered_map<int, int> mp;
+7
+8        for (int i = 0; i < n; i++) {
+9            mp[nums[i]]++;
+10        }
+11
+12        vector<int> v(n + 1, 0);
+13
+14        for (auto it : mp) {
+15            v[it.second]++;
+16        }
+17
+18        for (int i = 0; i < n; i++) {
+19            int idx = mp[nums[i]];
+20
+21            if (v[idx] == 1)
+22                return nums[i];
+23        }
+24        return -1;
+25    }
+26};
+27
+28// 20-1, 10-1, 30-2
+29//
