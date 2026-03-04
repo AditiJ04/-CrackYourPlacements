@@ -23,10 +23,10 @@
 23
 24            else if(mid%2!=0)
 25            {
-26                if(arr[mid]==arr[mid-1]) l=mid+1;
+26                if(arr[mid]==arr[mid-1]) l=mid+2;
 27                else
 28                {
-29                    h=mid-1;
+29                    h=mid-2;
 30                }
 31            }
 32        }
