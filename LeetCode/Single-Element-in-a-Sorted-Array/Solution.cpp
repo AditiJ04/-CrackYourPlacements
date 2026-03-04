@@ -17,8 +17,8 @@
 17            if(arr[mid]!=arr[mid-1] && arr[mid]!=arr[mid+1]) return ans=arr[mid];
 18            if(mid%2==0)
 19            {
-20                if(arr[mid]==arr[mid+1]) l=mid+2;
-21                else h=mid-2;
+20                if(arr[mid]==arr[mid+1]) l=mid+1;
+21                else h=mid+1;
 22            }
 23
 24            else if(mid%2!=0)
