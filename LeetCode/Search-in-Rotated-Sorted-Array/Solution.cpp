@@ -1,34 +1,38 @@
-class Solution {
-public:
-    int search(vector<int>& nums, int target) {
-        int n=nums.size();
-
-        int l=0;
-        int h=n-1;
-
-        while(l<=h)
-        {
-            int mid=(l+h)/2;
-            if(nums[mid]==target) return mid;
-
-            if(nums[l]<=nums[mid])
-            {
-                if(nums[l]<=target && target<nums[mid]) h=mid-1;
-                else l=mid+1;
-            }
-            else 
-            {
-                if(nums[mid]<target && target<=nums[h]) l=mid+1;
-                else h=mid-1;
-            }
-        }
-        return -1;
-    }
-};
-
-// 4 5 6 7 0 1 2
-// 0 1 2 3 4 5 6
-
-//l=0,h=6,mid=3
-
-//
+1class Solution {
+2public:
+3    int search(vector<int>& nums, int target) {
+4        int n=nums.size();
+5
+6        int l=0,h=n-1;
+7
+8        while(l<=h)
+9        {
+10            int mid=(l+h)/2;
+11
+12            if(nums[mid]==target) return mid;
+13            if(nums[mid]>=nums[l])
+14            {
+15                if(target>=nums[l] && target<nums[mid])
+16                {
+17                    h=mid-1;
+18                }
+19                else
+20                {
+21                    l=mid+1;
+22                }
+23            }
+24            else{
+25                if(target>nums[mid] && target<=nums[h])
+26                {
+27                    l=mid+1;
+28                }
+29                else
+30                {
+31                    h=mid-1;
+32                }
+33            }
+34        }
+35
+36        return -1;
+37    }
+38};
