@@ -1,0 +1,31 @@
+1class Solution {
+2public:
+3    int smallestBalancedIndex(vector<int>& nums) {
+4        int n = nums.size();
+5
+6        if (n <= 1)
+7            return -1;
+8
+9        vector<long long> sum(n);
+10        sum[0] = nums[0];
+11
+12        for (int i = 1; i < n; i++) {
+13            sum[i] = sum[i - 1] + nums[i];
+14        }
+15
+16        long long pro = 1;
+17
+18        for (int i = n - 1; i >= 1; i--) {
+19
+20            if (sum[i - 1] == pro)
+21                return i;
+22
+23            if (pro > 1e18 / nums[i])
+24                pro = 1e18;
+25            else
+26                pro *= nums[i];
+27        }
+28
+29        return -1;
+30    }
+31};
