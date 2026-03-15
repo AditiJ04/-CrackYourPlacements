@@ -10,50 +10,51 @@
 10 */
 11class Solution {
 12public:
-13    ListNode* rev(ListNode* head)
+13    ListNode* revList(ListNode* head)
 14    {
 15        ListNode* p=head;
 16        ListNode* q=NULL;
 17        ListNode* r=NULL;
-18        while(p)
-19        {
-20            r=q;
-21            q=p;
-22            p=p->next;
-23            q->next=r;
-24        }
-25
-26        return q;
-27    }
-28    void reorderList(ListNode* head) {
-29      ListNode* s=head;
-30      ListNode* f=head;
-31
-32      while(f && f->next && f->next->next)
-33      {
-34        s=s->next;
-35        f=f->next->next;
-36      }
-37
-38      ListNode* head1=rev(s->next);
-39
-40      s->next=NULL;
-41
-42      ListNode* p=head;
-43      ListNode* q=head1;
-44
-45      while(q)
-46      {
-47        ListNode* tmp1=p->next;
-48        ListNode* tmp2=q->next;
-49
-50        p->next=q;
-51        
-52        q->next=tmp1;
-53
-54        p=tmp1;
-55        q=tmp2;
-56      }
-57    
-58    }
-59};
+18
+19        while(p)
+20        {
+21            r=q;
+22            q=p;
+23            p=p->next;
+24            q->next=r;
+25        }
+26
+27        return q;
+28    }
+29    void reorderList(ListNode* head) {
+30        ListNode* s=head;
+31        ListNode* f=head;
+32
+33        while(f && f->next && f->next->next)
+34        {
+35            s=s->next;
+36            f=f->next->next;
+37        }
+38
+39        ListNode* nh=revList(s->next);
+40        s->next=NULL;
+41        ListNode* p=head;
+42        ListNode* q=nh;
+43
+44        while(q)
+45        {
+46            ListNode* t1=p->next;
+47            ListNode* t2=q->next;
+48
+49            p->next=q;
+50            q->next=t1;
+51
+52            p=t1;
+53            q=t2;
+54        }
+55
+56
+57    }
+58};
+59
+60// 1->2->4->3
