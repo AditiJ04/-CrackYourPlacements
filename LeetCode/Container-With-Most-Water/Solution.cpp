@@ -3,26 +3,24 @@
 3    int maxArea(vector<int>& height) {
 4        int n=height.size();
 5
-6        int l=0;
-7        int h=n-1;
-8
-9        int mx=INT_MIN;
-10        while(l!=h)
-11        {
-12            int k=min(height[l],height[h]);
-13            mx=max(mx,k*(h-l));
-14
-15            if(height[l]<=height[h])
-16            {
-17                l++;
-18            }
-19            else if(height[l]>=height[h])
-20            {
-21                h--;
-22            }
-23        }
-24
-25        return mx;
-26
-27    }
-28};
+6        int l=0,h=n-1;
+7        int mx=INT_MIN;
+8        
+9        while(l<=h)
+10        {
+11            int k=min(height[l],height[h]);
+12            mx=max(mx,k*(h-l));
+13
+14            if(height[l]>=height[h])
+15            {
+16                h--;
+17            }
+18            else
+19            {
+20                l++;
+21            }
+22        }
+23
+24        return mx;
+25    }
+26};
