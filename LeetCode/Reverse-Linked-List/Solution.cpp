@@ -11,19 +11,12 @@
 11class Solution {
 12public:
 13    ListNode* reverseList(ListNode* head) {
-14        ListNode* p=head;
+14        if(head==NULL || head->next==NULL) return head;
 15
-16        ListNode* q=NULL;
-17        ListNode* r=NULL;
-18
-19        while(p!=NULL)
-20        {
-21            q=p;
-22            p=p->next;
-23            q->next=r;
-24            r=q;
-25        }
-26
-27        return q;
-28    }
-29};
+16        ListNode* nh=reverseList(head->next);
+17        head->next->next=head;
+18        head->next=NULL;
+19
+20        return nh;
+21    }
+22};
