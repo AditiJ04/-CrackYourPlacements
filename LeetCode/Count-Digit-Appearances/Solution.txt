@@ -1,0 +1,25 @@
+1class Solution {
+2public:
+3    int findCount(int num, int dig) {
+4        int cnt = 0;
+5
+6        while (num != 0) {
+7            int r = num % 10;
+8            if (r == dig)
+9                cnt++;
+10            num /= 10;
+11        }
+12
+13        return cnt;
+14    }
+15    int countDigitOccurrences(vector<int>& nums, int digit) {
+16        int n = nums.size();
+17        int ans=0;
+18        
+19        for (int i = 0; i < n; i++) {
+20            ans+=findCount(nums[i], digit);
+21        }
+22
+23        return ans;
+24    }
+25};
