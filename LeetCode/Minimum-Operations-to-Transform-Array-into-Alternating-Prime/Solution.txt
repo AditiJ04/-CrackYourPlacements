@@ -1,0 +1,44 @@
+1class Solution {
+2public:
+3    vector<bool> Sieve(int n) {
+4        vector<bool> isPrime(n + 1, true);
+5        isPrime[0] = false;
+6        isPrime[1] = false;
+7
+8        for (int i = 2; i * i <= n; i++) {
+9            if (isPrime[i]) {
+10                for (int j = i * i; j <= n; j += i) {
+11                    isPrime[j] = false;
+12                }
+13            }
+14        }
+15        return isPrime;
+16    }
+17
+18    int minOperations(vector<int>& nums) {
+19        int n = nums.size();
+20        int mxval = *max_element(nums.begin(), nums.end())+100;
+21
+22        vector<bool> v = Sieve(mxval);
+23        int ans = 0;
+24
+25        for (int i = 0; i < n; i++) {
+26
+27            int val = nums[i];
+28
+29            if (i % 2 == 0) {
+30                while (!v[val]) {
+31                    val++;
+32                    ans++;
+33                }
+34            } else {
+35                while (v[val]) {
+36                    val++;
+37                    ans++;
+38                }
+39            }
+40        }
+41
+42        return ans;
+43    }
+44};
