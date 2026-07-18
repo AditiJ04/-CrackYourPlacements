@@ -22,9 +22,11 @@
 22        vector<int> v;
 23
 24        for (int i = 0; i < nums.size(); i++) {
-25            findSubsets(nums, i, v);
-26        }
-27
-28        return ans;
-29    }
-30};
+25
+26            if(i>0 && nums[i]==nums[i-1]) continue;
+27            findSubsets(nums, i, v);
+28        }
+29
+30        return ans;
+31    }
+32};
