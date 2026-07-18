@@ -1,30 +1,46 @@
 1class Solution {
 2public:
-3    vector<vector<int>> ans;
-4    map<vector<int>, int> mp;
-5    void findSubsets(vector<int>& nums, int idx, vector<int> v) {
-6
-7        if (mp.find(v) == mp.end()) {
-8            ans.push_back(v);
-9        }
-10
-11        mp[v]++;
-12        if (idx == nums.size()) {
-13            return;
-14        }
-15        findSubsets(nums, idx + 1, v);
-16        v.push_back(nums[idx]);
-17        findSubsets(nums, idx + 1, v);
-18    }
-19    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
-20        sort(nums.begin(), nums.end());
-21
-22        vector<int> v;
-23
-24        for (int i = 0; i < nums.size(); i++) {
-25            findSubsets(nums, i, v);
+3
+4    set<vector<int>>ans;
+5
+6    void Subset(vector<int>&nums,vector<int>&v,int idx)
+7    {
+8
+9       // sort(v.begin(),v.end());
+10        ans.insert(v);
+11
+12        if(idx==nums.size())
+13        {
+14            return;
+15        }
+16
+17        for(int i=idx;i<nums.size();i++)
+18        {
+19
+20         /*  if (i > idx && nums[i] == nums[i - 1]) {
+21            continue;
+22        }*/
+23            v.push_back(nums[i]);
+24            Subset(nums,v,i+1);
+25            v.pop_back();
 26        }
-27
-28        return ans;
-29    }
-30};
+27    }
+28    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+29        int n=nums.size();
+30
+31        vector<int>v;
+32
+33        sort(nums.begin(),nums.end());
+34
+35        Subset(nums,v,0);
+36
+37        vector<vector<int>>res;
+38
+39        for(auto it:ans)
+40        {
+41            res.push_back(it);
+42        }
+43
+44        return res;
+45    }
+46};
