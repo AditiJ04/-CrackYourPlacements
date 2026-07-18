@@ -3,30 +3,31 @@
 3
 4    vector<vector<int>>ans;
 5
-6    void findSum(vector<int>&candidates,int target,int idx,vector<int>&v)
+6    void solve(vector<int>&candidates,int target,vector<int>&v,int idx)
 7    {
-8        if(idx==candidates.size()) return;
-9
-10        if(target==0)
-11        {
-12            ans.push_back(v);
-13            return;
-14        }
-15        if(target-candidates[idx]>=0)
-16        {
-17            v.push_back(candidates[idx]);
-18            findSum(candidates,target-candidates[idx],idx,v);
-19            v.pop_back();
-20        }
-21
-22        findSum(candidates,target,idx+1,v);
-23    }
-24    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
-25        int n=candidates.size();
-26
-27        vector<int>v;
-28        findSum(candidates,target,0,v);
-29
-30        return ans;
-31    }
-32};
+8        if(target==0)
+9        {
+10            ans.push_back(v);
+11            return;
+12        }
+13        if(idx==candidates.size())
+14        {
+15            return;
+16        }
+17        if(candidates[idx]<=target)
+18        {
+19            v.push_back(candidates[idx]);
+20            solve(candidates,target-candidates[idx],v,idx);
+21            v.pop_back();
+22        }
+23        solve(candidates,target,v,idx+1);
+24    }
+25    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+26        int n=candidates.size();
+27
+28        vector<int>v;
+29        solve(candidates,target,v,0);
+30
+31        return ans;
+32    }
+33};
