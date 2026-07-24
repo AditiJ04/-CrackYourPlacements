@@ -1,25 +1,19 @@
-class Solution {
-public:
-    
-    int findUniquePaths(int i,int j,int m,int n,vector<vector<int>>&dp,vector<vector<int>>&grid)
-    {
-        if(i==m-1 && j==n-1)
-        {
-            return 1;
-        }
-
-        if(i<0 || j<0 || i==m || j==n) return 0;
-
-        if(dp[i][j]!=-1) return dp[i][j];
-        int v1=findUniquePaths(i+1,j,m,n,dp,grid);
-        int v2=findUniquePaths(i,j+1,m,n,dp,grid);
-
-        return dp[i][j]=v1+v2;
-    }
-    int uniquePaths(int m, int n) {
-        vector<vector<int>>grid(m,vector<int>(n,0));
-        vector<vector<int>>dp(m,vector<int>(n,-1));
-
-        return findUniquePaths(0,0,m,n,dp,grid);
-    }
-};
+1class Solution {
+2public:
+3    int uniquePaths(int m, int n) {
+4        vector<vector<int>>dp(m,vector<int>(n,0));
+5
+6        dp[m-1][n-1]=1;
+7
+8        for(int i=m-1;i>=0;i--)
+9        {
+10            for(int j=n-1;j>=0;j--)
+11            {
+12                if((i+1)<m) dp[i][j]+=dp[i+1][j];
+13                if((j+1)<n) dp[i][j]+=dp[i][j+1];
+14            }
+15        }
+16
+17        return dp[0][0];
+18    }
+19};
