@@ -4,27 +4,27 @@
 4        int n=grid.size();
 5        int m=grid[0].size();
 6
-7        for(int i=0;i<n;i++)
-8        {
-9            for(int j=0;j<m;j++)
-10            {
-11                if(i==0 && j==0)continue;
-12
-13                else if(i==0)
+7        vector<vector<int>>dp(n,vector<int>(m,0));
+8
+9        for(int i=0;i<n;i++)
+10        {
+11            for(int j=0;j<m;j++)
+12            {
+13                if(i==0 && j==0)
 14                {
-15                    grid[i][j]+=grid[i][j-1];
+15                    dp[i][j]=grid[i][j];
 16                }
-17                else if(j==0)
+17                else
 18                {
-19                    grid[i][j]+=grid[i-1][j];
-20                }
-21                else
-22                {
-23                    grid[i][j]+=min(grid[i-1][j],grid[i][j-1]);
-24                }
-25            }
-26        }
-27
-28        return grid[n-1][m-1];
+19                    int up=i>0?dp[i-1][j]:INT_MAX;
+20                    int left=j>0?dp[i][j-1]:INT_MAX;
+21
+22                    dp[i][j]=grid[i][j]+min(up,left);
+23                }
+24            }
+25        }
+26
+27        return dp[n-1][m-1];
+28
 29    }
 30};
