@@ -1,0 +1,30 @@
+1class Solution {
+2public:
+3
+4    bool findPartition(vector<int>&nums,int sum,vector<vector<int>>&dp,int idx)
+5    {
+6        if(sum==0) return true;
+7        if(idx==nums.size()) return false;
+8
+9        if(dp[idx][sum]!=-1) return dp[idx][sum];
+10        bool take=false,ntake=false;
+11
+12        if(nums[idx]<=sum)
+13        {
+14            take=findPartition(nums,sum-nums[idx],dp,idx+1);
+15        }
+16        ntake=findPartition(nums,sum,dp,idx+1);
+17
+18        return dp[idx][sum]=(take || ntake);
+19    }
+20    bool canPartition(vector<int>& nums) {
+21        int n=nums.size();
+22
+23        int sum=accumulate(nums.begin(),nums.end(),0);
+24
+25        if(sum%2!=0) return false;
+26
+27        vector<vector<int>>dp(n,vector<int>(sum/2+1,-1));
+28        return findPartition(nums,sum/2,dp,0);
+29    }
+30};
