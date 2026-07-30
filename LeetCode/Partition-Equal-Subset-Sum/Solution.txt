@@ -24,7 +24,7 @@
 24
 25        if(sum%2!=0) return false;
 26
-27        vector<vector<int>>dp(n,vector<int>(sum/2+1,-1));
+27        vector<vector<int>>dp(n+1,vector<int>(sum/2+1,-1));
 28        return findPartition(nums,sum/2,dp,0);
 29    }
 30};
