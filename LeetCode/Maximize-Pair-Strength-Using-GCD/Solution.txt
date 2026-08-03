@@ -1,0 +1,21 @@
+1class Solution {
+2public:
+3    long long maxPairStrength(vector<int>& nums) {
+4        int n = nums.size();
+5        long long ans=LLONG_MIN;
+6
+7        for (int i = 0; i < n; i++) {
+8            for (int j = i + 1; j < n; j++) {
+9                long long deno=__gcd(nums[i],nums[j]);
+10                long long a=nums[i]/deno;
+11                long long b=nums[j]/deno;
+12
+13                long long str=a*b;
+14
+15                ans=max(ans,str);
+16            }
+17        }
+18
+19        return ans;
+20    }
+21};
