@@ -1,0 +1,30 @@
+1class Solution {
+2public:
+3    double minPrice(vector<int>& prices, vector<int>& discounts) {
+4
+5        int n = prices.size();
+6        int m = discounts.size();
+7
+8        sort(prices.begin(), prices.end(), greater<int>());
+9        sort(discounts.begin(), discounts.end(), greater<int>());
+10
+11        int i = 0, j = 0;
+12        double ans = 0;
+13
+14        while (i < n && j < m) {
+15            ans += (double)(prices[i] * (100 - discounts[j])) / 100;
+16            i++;
+17            j++;
+18        }
+19
+20        while (i < n) {
+21            ans += prices[i];
+22            i++;
+23        }
+24
+25        return ans;
+26    }
+27};
+28
+29// 70 100
+30// 50 40 10
