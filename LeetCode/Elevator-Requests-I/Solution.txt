@@ -1,0 +1,17 @@
+1class Solution {
+2public:
+3    int elevatorRequests(int n, vector<int>& requests) {
+4        int m = requests.size();
+5
+6        int s = 0, ans = 0;
+7
+8        for (int i = 0; i < m; i++) {
+9            if (s == requests[i])
+10                continue;
+11            ans += abs(requests[i] - s);
+12            s = requests[i];
+13        }
+14
+15        return ans;
+16    }
+17};
