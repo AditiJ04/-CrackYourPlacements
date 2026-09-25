@@ -13,19 +13,10 @@
 13    ListNode* reverseList(ListNode* head) {
 14        if(head==NULL || head->next==NULL) return head;
 15
-16        ListNode* p=head;
-17        ListNode* q=NULL;
-18        ListNode* r=p->next;
+16        ListNode* nh=reverseList(head->next);
+17        head->next->next=head;
+18        head->next=NULL;
 19
-20        while(r!=NULL)
-21        {
-22            p->next=q;
-23            q=p;
-24            p=r;
-25            r=r->next;
-26        }
-27
-28        p->next=q;
-29        return p;
-30    }
-31};
+20        return nh;
+21    }
+22};
